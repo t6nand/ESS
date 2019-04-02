@@ -1,0 +1,1600 @@
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 34, 1
+  11              		.eabi_attribute 18, 4
+  12              		.file	"morse_definition.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.global	dotDuration
+  17              		.section	.rodata
+  20              	dotDuration:
+  21 0000 64       		.byte	100
+  22              		.global	dashDuration
+  23 0001 00       		.align	1
+  26              	dashDuration:
+  27 0002 2C01     		.short	300
+  28              		.global	letterSpacing
+  29              		.align	1
+  32              	letterSpacing:
+  33 0004 2C01     		.short	300
+  34              		.global	wordSpacing
+  35              		.align	1
+  38              	wordSpacing:
+  39 0006 BC02     		.short	700
+  40              		.section	.text.XMC_GPIO_SetOutputHigh,"ax",%progbits
+  41              		.align	1
+  42              		.syntax unified
+  43              		.thumb
+  44              		.thumb_func
+  45              		.fpu fpv4-sp-d16
+  47              	XMC_GPIO_SetOutputHigh:
+  48              	.LFB130:
+  49              		.file 1 "/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h"
+   1:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** /**
+   2:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * @file xmc_gpio.h
+   3:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * @date 2015-06-20
+   4:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  *
+   5:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * @cond
+   6:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  **************************************************************************************************
+   7:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * XMClib v2.1.16 - XMC Peripheral Driver Library 
+   8:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  *
+   9:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * Copyright (c) 2015-2017, Infineon Technologies AG
+  10:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * All rights reserved.                        
+  11:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  *                                             
+  12:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * Redistribution and use in source and binary forms, with or without modification,are permitted pr
+  13:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * following conditions are met:   
+  14:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  *                                                                              
+  15:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * Redistributions of source code must retain the above copyright notice, this list of conditions a
+  16:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * disclaimer.                        
+  17:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * 
+  18:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * Redistributions in binary form must reproduce the above copyright notice, this list of condition
+  19:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * disclaimer in the documentation and/or other materials provided with the distribution.          
+  20:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * 
+  21:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * Neither the name of the copyright holders nor the names of its contributors may be used to endor
+  22:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * products derived from this software without specific prior written permission.                  
+  23:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  *                                                                              
+  24:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR I
+  25:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTI
+  26:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE  FOR ANY DIRECT, IN
+  27:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBS
+  28:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THE
+  29:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * WHETHER IN CONTRACT, STRICT LIABILITY,OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+  30:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.                            
+  31:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  *                                                                              
+  32:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * To improve the quality of the software, users are encouraged to share modifications, enhancement
+  33:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * Infineon Technologies AG dave@infineon.com).                                                    
+  34:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  **************************************************************************************************
+  35:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  *
+  36:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * Change History
+  37:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * --------------
+  38:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  *
+  39:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * 2015-02-20:
+  40:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  *     - Initial draft<br>
+  41:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  *     - Documentation improved <br>
+  42:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  *      
+  43:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * 2015-06-20:
+  44:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  *     - Removed version macros and declaration of GetDriverVersion API
+  45:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  *
+  46:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * @endcond
+  47:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  *
+  48:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  */
+  49:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** 
+  50:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** #ifndef XMC_GPIO_H
+  51:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** #define XMC_GPIO_H
+  52:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** 
+  53:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** /**************************************************************************************************
+  54:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * HEADER FILES
+  55:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  **************************************************************************************************
+  56:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** 
+  57:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** #include "xmc_common.h"
+  58:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** 
+  59:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** /**
+  60:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * @addtogroup XMClib XMC Peripheral Library
+  61:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * @{
+  62:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  */
+  63:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** 
+  64:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** /**
+  65:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * @addtogroup GPIO
+  66:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * @brief General Purpose Input Output (GPIO) driver for the XMC microcontroller family.
+  67:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  *
+  68:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * GPIO driver provide a generic and very flexible software interface for all standard digital I/O 
+  69:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * Each port slice has individual interfaces for the operation as General Purpose I/O and it furthe
+  70:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * connectivity to the on-chip periphery and the control for the pad characteristics. 
+  71:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  *
+  72:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * The driver is divided into Input and Output mode.
+  73:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  *
+  74:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * Input mode features:
+  75:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * -# Configuration structure XMC_GPIO_CONFIG_t and initialization function XMC_GPIO_Init()
+  76:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * -# Allows the selection of weak pull-up or pull-down device. Configuration structure XMC_GPIO_MO
+  77:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * \if XMC1
+  78:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * -# Allows the selection of input hysteresis. XMC_GPIO_SetInputHysteresis()
+  79:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * \endif
+  80:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  *
+  81:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * 
+  82:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * Output mode features:
+  83:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * -# Allows the selection of push pull/open drain and Alternate output. Configuration structure XM
+  84:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * \if XMC4
+  85:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * -# Allows the selection of pad driver strength. Configuration structure XMC_GPIO_OUTPUT_STRENGTH
+  86:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * \endif
+  87:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  *
+  88:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * -# Allows the selection of initial output level. Configuration structure XMC_GPIO_OUTPUT_LEVEL_t
+  89:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  *
+  90:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  *@{
+  91:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  */
+  92:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  
+  93:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** /**************************************************************************************************
+  94:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * MACROS
+  95:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  **************************************************************************************************
+  96:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** 
+  97:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** #define PORT_IOCR_PC_Pos PORT0_IOCR0_PC0_Pos
+  98:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** #define PORT_IOCR_PC_Msk PORT0_IOCR0_PC0_Msk
+  99:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** 
+ 100:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** #define PORT_IOCR_PC_Size 				(8U)
+ 101:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** 											
+ 102:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** 
+ 103:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** #define XMC_GPIO_CHECK_OUTPUT_LEVEL(level) ((level == XMC_GPIO_OUTPUT_LEVEL_LOW) || \
+ 104:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****                                             (level == XMC_GPIO_OUTPUT_LEVEL_HIGH))
+ 105:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****                                             
+ 106:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** #define XMC_GPIO_CHECK_HWCTRL(hwctrl) ((hwctrl == XMC_GPIO_HWCTRL_DISABLED) || \
+ 107:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****                                        (hwctrl == XMC_GPIO_HWCTRL_PERIPHERAL1) || \
+ 108:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****                                        (hwctrl == XMC_GPIO_HWCTRL_PERIPHERAL2))                    
+ 109:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****                                             
+ 110:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** /**************************************************************************************************
+ 111:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * ENUMS
+ 112:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  **************************************************************************************************
+ 113:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** 
+ 114:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** 
+ 115:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** /**
+ 116:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * Defines output level of a pin. Use type \a XMC_GPIO_OUTPUT_LEVEL_t for this enum.
+ 117:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  */
+ 118:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** typedef enum XMC_GPIO_OUTPUT_LEVEL
+ 119:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** {
+ 120:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****   XMC_GPIO_OUTPUT_LEVEL_LOW  = 0x10000U, /**<  Reset bit */
+ 121:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****   XMC_GPIO_OUTPUT_LEVEL_HIGH = 0x1U, 	/**< Set bit  */
+ 122:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** } XMC_GPIO_OUTPUT_LEVEL_t;
+ 123:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** 
+ 124:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** /**
+ 125:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * Defines direct hardware control characteristics of the pin . Use type \a XMC_GPIO_HWCTRL_t for t
+ 126:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  */
+ 127:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** typedef enum XMC_GPIO_HWCTRL
+ 128:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** {
+ 129:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****   XMC_GPIO_HWCTRL_DISABLED     = 0x0U, /**<  Software control only */
+ 130:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****   XMC_GPIO_HWCTRL_PERIPHERAL1  = 0x1U, /**<  HWI0/HWO0 control path can override the software confi
+ 131:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****   XMC_GPIO_HWCTRL_PERIPHERAL2  = 0x2U  /**<  HWI1/HWO1 control path can override the software confi
+ 132:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** } XMC_GPIO_HWCTRL_t;
+ 133:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** 
+ 134:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** /**************************************************************************************************
+ 135:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * DEVICE FAMILY EXTENSIONS
+ 136:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  **************************************************************************************************
+ 137:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** 
+ 138:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  #if UC_FAMILY == XMC1
+ 139:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** #include "xmc1_gpio.h"
+ 140:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** #elif UC_FAMILY == XMC4
+ 141:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** #include "xmc4_gpio.h"
+ 142:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** #else
+ 143:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** #error "xmc_gpio.h: family device not supported"
+ 144:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** #endif
+ 145:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** 
+ 146:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** /**************************************************************************************************
+ 147:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * API PROTOTYPES
+ 148:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  **************************************************************************************************
+ 149:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** 
+ 150:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** #ifdef __cplusplus
+ 151:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** extern "C" {
+ 152:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** #endif
+ 153:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** 
+ 154:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** 
+ 155:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** /**
+ 156:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * @param  port	  Constant pointer pointing to GPIO port, to access port registers like Pn_OUT,Pn_O
+ 157:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * @param  pin	  Port pin number.
+ 158:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * @param  config GPIO configuration data structure. Refer data structure @ref XMC_GPIO_CONFIG_t fo
+ 159:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  *
+ 160:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * @return None
+ 161:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  *
+ 162:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * \par<b>Description:</b><br>
+ 163:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * \if XMC1
+ 164:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * Initializes input / output mode settings like, pull up / pull down devices,hysteresis, push pull
+ 165:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * Also configures alternate function outputs and clears hardware port control for a selected \a po
+ 166:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * \a config provides selected I/O settings. It configures hardware registers Pn_IOCR,Pn_OUT, Pn_OM
+ 167:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * \endif
+ 168:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * \if XMC4
+ 169:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * Initializes input / output mode settings like, pull up / pull down devices,push pull /open drain
+ 170:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * Also configures alternate function outputs and clears hardware port control for selected \a port
+ 171:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * It configures hardware registers Pn_IOCR,Pn_OUT,Pn_OMR,Pn_PDISC and Pn_PDR.\n
+ 172:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * \endif
+ 173:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  *
+ 174:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * \par<b>Related APIs:</b><BR>
+ 175:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  *  None
+ 176:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  *
+ 177:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * \par<b>Note:</b><br>
+ 178:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * This API is called in definition of DAVE_init by code generation and therefore should not be exp
+ 179:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * for the normal operation. Use other APIs only after DAVE_init is called successfully (returns DA
+ 180:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  *
+ 181:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  *
+ 182:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  */
+ 183:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** 
+ 184:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  
+ 185:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** void XMC_GPIO_Init(XMC_GPIO_PORT_t *const port, const uint8_t pin, const XMC_GPIO_CONFIG_t *const c
+ 186:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  
+ 187:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** /**
+ 188:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  *
+ 189:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * @param  port	Constant pointer pointing to GPIO port, to access hardware register Pn_IOCR.
+ 190:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * @param  pin	Port pin number.
+ 191:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * @param  mode input / output functionality selection. Refer @ref XMC_GPIO_MODE_t for valid values
+ 192:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  *
+ 193:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * @return None
+ 194:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  *
+ 195:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * \par<b>Description:</b><br>
+ 196:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * Sets digital input and output driver functionality and characteristics of a GPIO port pin. It co
+ 197:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * registers Pn_IOCR. \a mode is initially configured during initialization in XMC_GPIO_Init(). Cal
+ 198:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * the port direction functionality as needed later in the program.
+ 199:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  *
+ 200:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * \par<b>Related APIs:</b><BR>
+ 201:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  *  None
+ 202:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  *
+ 203:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  */
+ 204:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** 
+ 205:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** void XMC_GPIO_SetMode(XMC_GPIO_PORT_t *const port, const uint8_t pin, const XMC_GPIO_MODE_t mode);
+ 206:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** 
+ 207:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** 
+ 208:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** /**
+ 209:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  *
+ 210:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * @param  port	 Constant pointer pointing to GPIO port, to access hardware register Pn_OMR.
+ 211:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * @param  pin	 Port pin number.
+ 212:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * @param  level output level selection. Refer @ref XMC_GPIO_OUTPUT_LEVEL_t for valid values.
+ 213:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  *
+ 214:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * @return None
+ 215:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  *
+ 216:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * \par<b>Description:</b><br>
+ 217:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * Set port pin output level to high or low.It configures hardware registers Pn_OMR.\a level is ini
+ 218:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * configured during initialization in XMC_GPIO_Init(). Call this API to alter output level as need
+ 219:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  *
+ 220:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * \par<b>Related APIs:</b><BR>
+ 221:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  *  XMC_GPIO_SetOutputHigh(), XMC_GPIO_SetOutputLow().
+ 222:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  *
+ 223:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * \par<b>Note:</b><br>
+ 224:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * Prior to this api, user has to configure port pin to output mode using XMC_GPIO_SetMode().
+ 225:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  *
+ 226:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  */
+ 227:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** 
+ 228:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** 
+ 229:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** __STATIC_INLINE void XMC_GPIO_SetOutputLevel(XMC_GPIO_PORT_t *const port, const uint8_t pin, const 
+ 230:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** {
+ 231:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****   XMC_ASSERT("XMC_GPIO_SetOutputLevel: Invalid port", XMC_GPIO_CHECK_OUTPUT_PORT(port));
+ 232:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****   XMC_ASSERT("XMC_GPIO_SetOutputLevel: Invalid output level", XMC_GPIO_CHECK_OUTPUT_LEVEL(level));
+ 233:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****   
+ 234:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****   port->OMR = (uint32_t)level << pin;
+ 235:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** }
+ 236:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** 
+ 237:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** 
+ 238:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** /**
+ 239:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * @param  port constant pointer pointing to GPIO port, to access hardware register Pn_OMR.
+ 240:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * @param  pin	Port pin number.
+ 241:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  *
+ 242:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * @return None
+ 243:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  *
+ 244:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * \par<b>Description:</b><br>
+ 245:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  *  Sets port pin output to high. It configures hardware registers Pn_OMR.
+ 246:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  *
+ 247:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  *  \par<b>Related APIs:</b><BR>
+ 248:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  *  XMC_GPIO_SetOutputLow()
+ 249:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  *
+ 250:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * \par<b>Note:</b><br>
+ 251:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * Prior to this api, user has to configure port pin to output mode using XMC_GPIO_SetMode().\n
+ 252:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * Register Pn_OMR is virtual and does not contain any flip-flop. A read action delivers the value 
+ 253:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  *
+ 254:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  */
+ 255:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** 
+ 256:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** __STATIC_INLINE void XMC_GPIO_SetOutputHigh(XMC_GPIO_PORT_t *const port, const uint8_t pin)
+ 257:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** {
+  50              		.loc 1 257 0
+  51              		.cfi_startproc
+  52              		@ args = 0, pretend = 0, frame = 8
+  53              		@ frame_needed = 1, uses_anonymous_args = 0
+  54              		@ link register save eliminated.
+  55 0000 80B4     		push	{r7}
+  56              	.LCFI0:
+  57              		.cfi_def_cfa_offset 4
+  58              		.cfi_offset 7, -4
+  59 0002 83B0     		sub	sp, sp, #12
+  60              	.LCFI1:
+  61              		.cfi_def_cfa_offset 16
+  62 0004 00AF     		add	r7, sp, #0
+  63              	.LCFI2:
+  64              		.cfi_def_cfa_register 7
+  65 0006 7860     		str	r0, [r7, #4]
+  66 0008 0B46     		mov	r3, r1
+  67 000a FB70     		strb	r3, [r7, #3]
+ 258:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****   XMC_ASSERT("XMC_GPIO_SetOutputHigh: Invalid port", XMC_GPIO_CHECK_OUTPUT_PORT(port));
+ 259:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** 
+ 260:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****   port->OMR = (uint32_t)0x1U << pin;
+  68              		.loc 1 260 0
+  69 000c FB78     		ldrb	r3, [r7, #3]	@ zero_extendqisi2
+  70 000e 0122     		movs	r2, #1
+  71 0010 9A40     		lsls	r2, r2, r3
+  72 0012 7B68     		ldr	r3, [r7, #4]
+  73 0014 5A60     		str	r2, [r3, #4]
+ 261:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** }
+  74              		.loc 1 261 0
+  75 0016 00BF     		nop
+  76 0018 0C37     		adds	r7, r7, #12
+  77              	.LCFI3:
+  78              		.cfi_def_cfa_offset 4
+  79 001a BD46     		mov	sp, r7
+  80              	.LCFI4:
+  81              		.cfi_def_cfa_register 13
+  82              		@ sp needed
+  83 001c 5DF8047B 		ldr	r7, [sp], #4
+  84              	.LCFI5:
+  85              		.cfi_restore 7
+  86              		.cfi_def_cfa_offset 0
+  87 0020 7047     		bx	lr
+  88              		.cfi_endproc
+  89              	.LFE130:
+  91              		.section	.text.XMC_GPIO_SetOutputLow,"ax",%progbits
+  92              		.align	1
+  93              		.syntax unified
+  94              		.thumb
+  95              		.thumb_func
+  96              		.fpu fpv4-sp-d16
+  98              	XMC_GPIO_SetOutputLow:
+  99              	.LFB131:
+ 262:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** 
+ 263:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** /**
+ 264:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  *
+ 265:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * @param  port	constant pointer pointing to GPIO port, to access hardware register Pn_OMR.
+ 266:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * @param  pin	port pin number.
+ 267:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  *
+ 268:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * @return  None
+ 269:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  *
+ 270:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  *\par<b>Description:</b><br>
+ 271:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * Sets port pin output to low. It configures hardware registers Pn_OMR.\n
+ 272:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  *
+ 273:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * \par<b>Related APIs:</b><BR>>
+ 274:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * XMC_GPIO_SetOutputHigh()
+ 275:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  *
+ 276:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  *\par<b>Note:</b><br>
+ 277:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * Prior to this api, user has to configure port pin to output mode using XMC_GPIO_SetMode().
+ 278:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  * Register Pn_OMR is virtual and does not contain any flip-flop. A read action delivers the value 
+ 279:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  *
+ 280:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****  */
+ 281:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** 
+ 282:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** __STATIC_INLINE void XMC_GPIO_SetOutputLow(XMC_GPIO_PORT_t *const port, const uint8_t pin)
+ 283:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** {
+ 100              		.loc 1 283 0
+ 101              		.cfi_startproc
+ 102              		@ args = 0, pretend = 0, frame = 8
+ 103              		@ frame_needed = 1, uses_anonymous_args = 0
+ 104              		@ link register save eliminated.
+ 105 0000 80B4     		push	{r7}
+ 106              	.LCFI6:
+ 107              		.cfi_def_cfa_offset 4
+ 108              		.cfi_offset 7, -4
+ 109 0002 83B0     		sub	sp, sp, #12
+ 110              	.LCFI7:
+ 111              		.cfi_def_cfa_offset 16
+ 112 0004 00AF     		add	r7, sp, #0
+ 113              	.LCFI8:
+ 114              		.cfi_def_cfa_register 7
+ 115 0006 7860     		str	r0, [r7, #4]
+ 116 0008 0B46     		mov	r3, r1
+ 117 000a FB70     		strb	r3, [r7, #3]
+ 284:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****   XMC_ASSERT("XMC_GPIO_SetOutputLow: Invalid port", XMC_GPIO_CHECK_OUTPUT_PORT(port));
+ 285:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** 
+ 286:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h ****   port->OMR = 0x10000U << pin;
+ 118              		.loc 1 286 0
+ 119 000c FB78     		ldrb	r3, [r7, #3]	@ zero_extendqisi2
+ 120 000e 4FF48032 		mov	r2, #65536
+ 121 0012 9A40     		lsls	r2, r2, r3
+ 122 0014 7B68     		ldr	r3, [r7, #4]
+ 123 0016 5A60     		str	r2, [r3, #4]
+ 287:/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h **** }
+ 124              		.loc 1 287 0
+ 125 0018 00BF     		nop
+ 126 001a 0C37     		adds	r7, r7, #12
+ 127              	.LCFI9:
+ 128              		.cfi_def_cfa_offset 4
+ 129 001c BD46     		mov	sp, r7
+ 130              	.LCFI10:
+ 131              		.cfi_def_cfa_register 13
+ 132              		@ sp needed
+ 133 001e 5DF8047B 		ldr	r7, [sp], #4
+ 134              	.LCFI11:
+ 135              		.cfi_restore 7
+ 136              		.cfi_def_cfa_offset 0
+ 137 0022 7047     		bx	lr
+ 138              		.cfi_endproc
+ 139              	.LFE131:
+ 141              		.comm	globalSysTickCounter,4,4
+ 142              		.section	.rodata
+ 143              		.align	2
+ 144              	.LC0:
+ 145 0008 80       		.byte	-128
+ 146 0009 000000   		.space	3
+ 147 000c 00000100 		.word	65536
+ 148 0010 00       		.byte	0
+ 149 0011 000000   		.space	3
+ 150              		.section	.text.initGPIO,"ax",%progbits
+ 151              		.align	1
+ 152              		.global	initGPIO
+ 153              		.syntax unified
+ 154              		.thumb
+ 155              		.thumb_func
+ 156              		.fpu fpv4-sp-d16
+ 158              	initGPIO:
+ 159              	.LFB138:
+ 160              		.file 2 "morse_definition.c"
+   1:morse_definition.c **** /**
+   2:morse_definition.c **** *	Created By: Tapan Sharma
+   3:morse_definition.c **** *	Matrikulation Number: 03712841
+   4:morse_definition.c **** *   
+   5:morse_definition.c **** *   Assignment: Implementation of Morse Code using LED1 on Pin P1.1 to send Code Word "I CAN MORSE"
+   6:morse_definition.c **** */
+   7:morse_definition.c **** 
+   8:morse_definition.c **** /**************************************************************************************************
+   9:morse_definition.c **** 																								HEADER FILES																														
+  10:morse_definition.c **** ***************************************************************************************************
+  11:morse_definition.c **** #include "morse_definition.h"
+  12:morse_definition.c **** #include <xmc_gpio.h>
+  13:morse_definition.c **** #include "timer_config.h"
+  14:morse_definition.c **** 
+  15:morse_definition.c **** /**************************************************************************************************
+  16:morse_definition.c **** 														STANDARD DEFINITIONS, MACROS, DECLARATIONS AND GLOBAL CONSTANTS														
+  17:morse_definition.c **** ***************************************************************************************************
+  18:morse_definition.c **** 
+  19:morse_definition.c **** const uint8_t dotDuration = 100;										// Dot duration is of 100ms. Dot also represents 1 fundam
+  20:morse_definition.c **** const uint16_t dashDuration = 300; 								// Dash duration is of 3x dot duration. (Refer Section 2
+  21:morse_definition.c **** const uint16_t letterSpacing = 300;									// Spacing duration between 2 letters in a word is of 3
+  22:morse_definition.c **** const uint16_t wordSpacing = 700;									// Spacing duration between 2 words is of 7x dot duration
+  23:morse_definition.c **** 
+  24:morse_definition.c **** /**************************************************************************************************
+  25:morse_definition.c **** 																							FUNCTION DEFINITIONS														
+  26:morse_definition.c **** ***************************************************************************************************
+  27:morse_definition.c **** 
+  28:morse_definition.c **** /**
+  29:morse_definition.c **** * This function initiates GPIO using config as defined in it.
+  30:morse_definition.c **** */ 
+  31:morse_definition.c **** void initGPIO(void) {
+ 161              		.loc 2 31 0
+ 162              		.cfi_startproc
+ 163              		@ args = 0, pretend = 0, frame = 16
+ 164              		@ frame_needed = 1, uses_anonymous_args = 0
+ 165 0000 80B5     		push	{r7, lr}
+ 166              	.LCFI12:
+ 167              		.cfi_def_cfa_offset 8
+ 168              		.cfi_offset 7, -8
+ 169              		.cfi_offset 14, -4
+ 170 0002 84B0     		sub	sp, sp, #16
+ 171              	.LCFI13:
+ 172              		.cfi_def_cfa_offset 24
+ 173 0004 00AF     		add	r7, sp, #0
+ 174              	.LCFI14:
+ 175              		.cfi_def_cfa_register 7
+  32:morse_definition.c **** 	const XMC_GPIO_CONFIG_t LED_config = \
+ 176              		.loc 2 32 0
+ 177 0006 074A     		ldr	r2, .L4
+ 178 0008 3B1D     		adds	r3, r7, #4
+ 179 000a 07CA     		ldm	r2, {r0, r1, r2}
+ 180 000c 83E80700 		stm	r3, {r0, r1, r2}
+  33:morse_definition.c **** 			{.mode=XMC_GPIO_MODE_OUTPUT_PUSH_PULL,\
+  34:morse_definition.c **** 			 .output_level=XMC_GPIO_OUTPUT_LEVEL_LOW,\
+  35:morse_definition.c **** 			 .output_strength=XMC_GPIO_OUTPUT_STRENGTH_STRONG_SHARP_EDGE};	 
+  36:morse_definition.c **** 	XMC_GPIO_Init(XMC_GPIO_PORT1, 1, &LED_config);	
+ 181              		.loc 2 36 0
+ 182 0010 3B1D     		adds	r3, r7, #4
+ 183 0012 1A46     		mov	r2, r3
+ 184 0014 0121     		movs	r1, #1
+ 185 0016 0448     		ldr	r0, .L4+4
+ 186 0018 FFF7FEFF 		bl	XMC_GPIO_Init
+  37:morse_definition.c **** }
+ 187              		.loc 2 37 0
+ 188 001c 00BF     		nop
+ 189 001e 1037     		adds	r7, r7, #16
+ 190              	.LCFI15:
+ 191              		.cfi_def_cfa_offset 8
+ 192 0020 BD46     		mov	sp, r7
+ 193              	.LCFI16:
+ 194              		.cfi_def_cfa_register 13
+ 195              		@ sp needed
+ 196 0022 80BD     		pop	{r7, pc}
+ 197              	.L5:
+ 198              		.align	2
+ 199              	.L4:
+ 200 0024 08000000 		.word	.LC0
+ 201 0028 00810248 		.word	1208123648
+ 202              		.cfi_endproc
+ 203              	.LFE138:
+ 205              		.section	.text.dot,"ax",%progbits
+ 206              		.align	1
+ 207              		.global	dot
+ 208              		.syntax unified
+ 209              		.thumb
+ 210              		.thumb_func
+ 211              		.fpu fpv4-sp-d16
+ 213              	dot:
+ 214              	.LFB139:
+  38:morse_definition.c **** 
+  39:morse_definition.c **** /**
+  40:morse_definition.c **** * This function describes a "DOT" in Morse code. Each Dot is represented by a HIGH state of LED for
+  41:morse_definition.c **** */
+  42:morse_definition.c **** void dot(void) {
+ 215              		.loc 2 42 0
+ 216              		.cfi_startproc
+ 217              		@ args = 0, pretend = 0, frame = 0
+ 218              		@ frame_needed = 1, uses_anonymous_args = 0
+ 219 0000 80B5     		push	{r7, lr}
+ 220              	.LCFI17:
+ 221              		.cfi_def_cfa_offset 8
+ 222              		.cfi_offset 7, -8
+ 223              		.cfi_offset 14, -4
+ 224 0002 00AF     		add	r7, sp, #0
+ 225              	.LCFI18:
+ 226              		.cfi_def_cfa_register 7
+  43:morse_definition.c **** 	XMC_GPIO_SetOutputHigh(XMC_GPIO_PORT1, 1);
+ 227              		.loc 2 43 0
+ 228 0004 0121     		movs	r1, #1
+ 229 0006 0848     		ldr	r0, .L7
+ 230 0008 FFF7FEFF 		bl	XMC_GPIO_SetOutputHigh
+  44:morse_definition.c **** 	delay(dotDuration);
+ 231              		.loc 2 44 0
+ 232 000c 6423     		movs	r3, #100
+ 233 000e 1846     		mov	r0, r3
+ 234 0010 FFF7FEFF 		bl	delay
+  45:morse_definition.c **** 	XMC_GPIO_SetOutputLow(XMC_GPIO_PORT1, 1);
+ 235              		.loc 2 45 0
+ 236 0014 0121     		movs	r1, #1
+ 237 0016 0448     		ldr	r0, .L7
+ 238 0018 FFF7FEFF 		bl	XMC_GPIO_SetOutputLow
+  46:morse_definition.c **** 	delay(dotDuration); // Added to keep distance from next "DOT/DASH" equivalent to 1 dotDuration. (R
+ 239              		.loc 2 46 0
+ 240 001c 6423     		movs	r3, #100
+ 241 001e 1846     		mov	r0, r3
+ 242 0020 FFF7FEFF 		bl	delay
+  47:morse_definition.c **** }
+ 243              		.loc 2 47 0
+ 244 0024 00BF     		nop
+ 245 0026 80BD     		pop	{r7, pc}
+ 246              	.L8:
+ 247              		.align	2
+ 248              	.L7:
+ 249 0028 00810248 		.word	1208123648
+ 250              		.cfi_endproc
+ 251              	.LFE139:
+ 253              		.section	.text.dash,"ax",%progbits
+ 254              		.align	1
+ 255              		.global	dash
+ 256              		.syntax unified
+ 257              		.thumb
+ 258              		.thumb_func
+ 259              		.fpu fpv4-sp-d16
+ 261              	dash:
+ 262              	.LFB140:
+  48:morse_definition.c **** 
+  49:morse_definition.c **** /**
+  50:morse_definition.c **** * This function describes a "DOT" in Morse code. Each Dot is represented by a HIGH state of LED for
+  51:morse_definition.c **** */
+  52:morse_definition.c **** void dash(void) {
+ 263              		.loc 2 52 0
+ 264              		.cfi_startproc
+ 265              		@ args = 0, pretend = 0, frame = 0
+ 266              		@ frame_needed = 1, uses_anonymous_args = 0
+ 267 0000 80B5     		push	{r7, lr}
+ 268              	.LCFI19:
+ 269              		.cfi_def_cfa_offset 8
+ 270              		.cfi_offset 7, -8
+ 271              		.cfi_offset 14, -4
+ 272 0002 00AF     		add	r7, sp, #0
+ 273              	.LCFI20:
+ 274              		.cfi_def_cfa_register 7
+  53:morse_definition.c **** 	XMC_GPIO_SetOutputHigh(XMC_GPIO_PORT1, 1);
+ 275              		.loc 2 53 0
+ 276 0004 0121     		movs	r1, #1
+ 277 0006 0948     		ldr	r0, .L10
+ 278 0008 FFF7FEFF 		bl	XMC_GPIO_SetOutputHigh
+  54:morse_definition.c **** 	delay(dashDuration);
+ 279              		.loc 2 54 0
+ 280 000c 4FF49673 		mov	r3, #300
+ 281 0010 1846     		mov	r0, r3
+ 282 0012 FFF7FEFF 		bl	delay
+  55:morse_definition.c **** 	XMC_GPIO_SetOutputLow(XMC_GPIO_PORT1, 1);
+ 283              		.loc 2 55 0
+ 284 0016 0121     		movs	r1, #1
+ 285 0018 0448     		ldr	r0, .L10
+ 286 001a FFF7FEFF 		bl	XMC_GPIO_SetOutputLow
+  56:morse_definition.c **** 	delay(dotDuration); // Added to keep distance from next "DOT/DASH" equivalent to 1 dotDuration. (R
+ 287              		.loc 2 56 0
+ 288 001e 6423     		movs	r3, #100
+ 289 0020 1846     		mov	r0, r3
+ 290 0022 FFF7FEFF 		bl	delay
+  57:morse_definition.c **** }
+ 291              		.loc 2 57 0
+ 292 0026 00BF     		nop
+ 293 0028 80BD     		pop	{r7, pc}
+ 294              	.L11:
+ 295 002a 00BF     		.align	2
+ 296              	.L10:
+ 297 002c 00810248 		.word	1208123648
+ 298              		.cfi_endproc
+ 299              	.LFE140:
+ 301              		.section	.text.transmitMessage,"ax",%progbits
+ 302              		.align	1
+ 303              		.global	transmitMessage
+ 304              		.syntax unified
+ 305              		.thumb
+ 306              		.thumb_func
+ 307              		.fpu fpv4-sp-d16
+ 309              	transmitMessage:
+ 310              	.LFB141:
+  58:morse_definition.c **** 
+  59:morse_definition.c **** /**
+  60:morse_definition.c **** * This method represents the intended Message in it's Morse Code equivalent.
+  61:morse_definition.c **** */
+  62:morse_definition.c **** 
+  63:morse_definition.c **** void transmitMessage(void) {
+ 311              		.loc 2 63 0
+ 312              		.cfi_startproc
+ 313              		@ args = 0, pretend = 0, frame = 0
+ 314              		@ frame_needed = 1, uses_anonymous_args = 0
+ 315 0000 80B5     		push	{r7, lr}
+ 316              	.LCFI21:
+ 317              		.cfi_def_cfa_offset 8
+ 318              		.cfi_offset 7, -8
+ 319              		.cfi_offset 14, -4
+ 320 0002 00AF     		add	r7, sp, #0
+ 321              	.LCFI22:
+ 322              		.cfi_def_cfa_register 7
+  64:morse_definition.c **** 	// Message is "I CAN MORSE"
+  65:morse_definition.c **** 	
+  66:morse_definition.c **** 	// I 
+  67:morse_definition.c **** 	getMorseForCharacter('I');
+ 323              		.loc 2 67 0
+ 324 0004 4920     		movs	r0, #73
+ 325 0006 FFF7FEFF 		bl	getMorseForCharacter
+  68:morse_definition.c **** 	
+  69:morse_definition.c **** 	delay(wordSpacing - dotDuration); // Added to keep distance from next word, equivalent to 7 dotDur
+ 326              		.loc 2 69 0
+ 327 000a 4FF42F73 		mov	r3, #700
+ 328 000e 1A46     		mov	r2, r3
+ 329 0010 6423     		movs	r3, #100
+ 330 0012 D31A     		subs	r3, r2, r3
+ 331 0014 1846     		mov	r0, r3
+ 332 0016 FFF7FEFF 		bl	delay
+  70:morse_definition.c **** 	
+  71:morse_definition.c **** 	// C
+  72:morse_definition.c **** 	getMorseForCharacter('C');
+ 333              		.loc 2 72 0
+ 334 001a 4320     		movs	r0, #67
+ 335 001c FFF7FEFF 		bl	getMorseForCharacter
+  73:morse_definition.c **** 	
+  74:morse_definition.c **** 	delay(letterSpacing - dotDuration); // Added to keep distance from next letter in a word, equivale
+ 336              		.loc 2 74 0
+ 337 0020 4FF49673 		mov	r3, #300
+ 338 0024 1A46     		mov	r2, r3
+ 339 0026 6423     		movs	r3, #100
+ 340 0028 D31A     		subs	r3, r2, r3
+ 341 002a 1846     		mov	r0, r3
+ 342 002c FFF7FEFF 		bl	delay
+  75:morse_definition.c **** 	
+  76:morse_definition.c **** 	//A 
+  77:morse_definition.c **** 	getMorseForCharacter('A');
+ 343              		.loc 2 77 0
+ 344 0030 4120     		movs	r0, #65
+ 345 0032 FFF7FEFF 		bl	getMorseForCharacter
+  78:morse_definition.c **** 	
+  79:morse_definition.c **** 	delay(letterSpacing - dotDuration); // Added to keep distance from next letter in a word, equivale
+ 346              		.loc 2 79 0
+ 347 0036 4FF49673 		mov	r3, #300
+ 348 003a 1A46     		mov	r2, r3
+ 349 003c 6423     		movs	r3, #100
+ 350 003e D31A     		subs	r3, r2, r3
+ 351 0040 1846     		mov	r0, r3
+ 352 0042 FFF7FEFF 		bl	delay
+  80:morse_definition.c **** 	
+  81:morse_definition.c **** 	// N 
+  82:morse_definition.c **** 	getMorseForCharacter('N');
+ 353              		.loc 2 82 0
+ 354 0046 4E20     		movs	r0, #78
+ 355 0048 FFF7FEFF 		bl	getMorseForCharacter
+  83:morse_definition.c **** 	
+  84:morse_definition.c **** 	delay(wordSpacing - dotDuration); // Added to keep distance from next word, equivalent to 7 dotDur
+ 356              		.loc 2 84 0
+ 357 004c 4FF42F73 		mov	r3, #700
+ 358 0050 1A46     		mov	r2, r3
+ 359 0052 6423     		movs	r3, #100
+ 360 0054 D31A     		subs	r3, r2, r3
+ 361 0056 1846     		mov	r0, r3
+ 362 0058 FFF7FEFF 		bl	delay
+  85:morse_definition.c **** 	
+  86:morse_definition.c **** 	// M 
+  87:morse_definition.c **** 	getMorseForCharacter('M');
+ 363              		.loc 2 87 0
+ 364 005c 4D20     		movs	r0, #77
+ 365 005e FFF7FEFF 		bl	getMorseForCharacter
+  88:morse_definition.c **** 	
+  89:morse_definition.c **** 	delay(letterSpacing - dotDuration); // Added to keep distance from next letter in a word, equivale
+ 366              		.loc 2 89 0
+ 367 0062 4FF49673 		mov	r3, #300
+ 368 0066 1A46     		mov	r2, r3
+ 369 0068 6423     		movs	r3, #100
+ 370 006a D31A     		subs	r3, r2, r3
+ 371 006c 1846     		mov	r0, r3
+ 372 006e FFF7FEFF 		bl	delay
+  90:morse_definition.c **** 	
+  91:morse_definition.c **** 	// O 
+  92:morse_definition.c **** 	getMorseForCharacter('O');
+ 373              		.loc 2 92 0
+ 374 0072 4F20     		movs	r0, #79
+ 375 0074 FFF7FEFF 		bl	getMorseForCharacter
+  93:morse_definition.c **** 	
+  94:morse_definition.c **** 	delay(letterSpacing - dotDuration); // Added to keep distance from next letter in a word, equivale
+ 376              		.loc 2 94 0
+ 377 0078 4FF49673 		mov	r3, #300
+ 378 007c 1A46     		mov	r2, r3
+ 379 007e 6423     		movs	r3, #100
+ 380 0080 D31A     		subs	r3, r2, r3
+ 381 0082 1846     		mov	r0, r3
+ 382 0084 FFF7FEFF 		bl	delay
+  95:morse_definition.c **** 	
+  96:morse_definition.c **** 	// R 
+  97:morse_definition.c **** 	getMorseForCharacter('R');
+ 383              		.loc 2 97 0
+ 384 0088 5220     		movs	r0, #82
+ 385 008a FFF7FEFF 		bl	getMorseForCharacter
+  98:morse_definition.c **** 	
+  99:morse_definition.c **** 	delay(letterSpacing - dotDuration); // Added to keep distance from next letter in a word, equivale
+ 386              		.loc 2 99 0
+ 387 008e 4FF49673 		mov	r3, #300
+ 388 0092 1A46     		mov	r2, r3
+ 389 0094 6423     		movs	r3, #100
+ 390 0096 D31A     		subs	r3, r2, r3
+ 391 0098 1846     		mov	r0, r3
+ 392 009a FFF7FEFF 		bl	delay
+ 100:morse_definition.c **** 	
+ 101:morse_definition.c **** 	// S 
+ 102:morse_definition.c **** 	getMorseForCharacter('S');
+ 393              		.loc 2 102 0
+ 394 009e 5320     		movs	r0, #83
+ 395 00a0 FFF7FEFF 		bl	getMorseForCharacter
+ 103:morse_definition.c **** 	
+ 104:morse_definition.c **** 	delay(letterSpacing - dotDuration); // Added to keep distance from next letter in a word, equivale
+ 396              		.loc 2 104 0
+ 397 00a4 4FF49673 		mov	r3, #300
+ 398 00a8 1A46     		mov	r2, r3
+ 399 00aa 6423     		movs	r3, #100
+ 400 00ac D31A     		subs	r3, r2, r3
+ 401 00ae 1846     		mov	r0, r3
+ 402 00b0 FFF7FEFF 		bl	delay
+ 105:morse_definition.c **** 	
+ 106:morse_definition.c **** 	// E
+ 107:morse_definition.c **** 	getMorseForCharacter('E');
+ 403              		.loc 2 107 0
+ 404 00b4 4520     		movs	r0, #69
+ 405 00b6 FFF7FEFF 		bl	getMorseForCharacter
+ 108:morse_definition.c **** }
+ 406              		.loc 2 108 0
+ 407 00ba 00BF     		nop
+ 408 00bc 80BD     		pop	{r7, pc}
+ 409              		.cfi_endproc
+ 410              	.LFE141:
+ 412              		.section	.text.getMorseForCharacter,"ax",%progbits
+ 413              		.align	1
+ 414              		.global	getMorseForCharacter
+ 415              		.syntax unified
+ 416              		.thumb
+ 417              		.thumb_func
+ 418              		.fpu fpv4-sp-d16
+ 420              	getMorseForCharacter:
+ 421              	.LFB142:
+ 109:morse_definition.c **** 
+ 110:morse_definition.c **** /**
+ 111:morse_definition.c **** * This function serves as a morse code mapping to their alpha-numeric equivalents.
+ 112:morse_definition.c **** */
+ 113:morse_definition.c **** void getMorseForCharacter(char character) {
+ 422              		.loc 2 113 0
+ 423              		.cfi_startproc
+ 424              		@ args = 0, pretend = 0, frame = 8
+ 425              		@ frame_needed = 1, uses_anonymous_args = 0
+ 426 0000 80B5     		push	{r7, lr}
+ 427              	.LCFI23:
+ 428              		.cfi_def_cfa_offset 8
+ 429              		.cfi_offset 7, -8
+ 430              		.cfi_offset 14, -4
+ 431 0002 82B0     		sub	sp, sp, #8
+ 432              	.LCFI24:
+ 433              		.cfi_def_cfa_offset 16
+ 434 0004 00AF     		add	r7, sp, #0
+ 435              	.LCFI25:
+ 436              		.cfi_def_cfa_register 7
+ 437 0006 0346     		mov	r3, r0
+ 438 0008 FB71     		strb	r3, [r7, #7]
+ 114:morse_definition.c **** 	switch (character) {
+ 439              		.loc 2 114 0
+ 440 000a FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 441 000c 303B     		subs	r3, r3, #48
+ 442 000e 4A2B     		cmp	r3, #74
+ 443 0010 00F2C681 		bhi	.L52
+ 444 0014 01A2     		adr	r2, .L16
+ 445 0016 52F823F0 		ldr	pc, [r2, r3, lsl #2]
+ 446 001a 00BF     		.p2align 2
+ 447              	.L16:
+ 448 001c C5020000 		.word	.L15+1
+ 449 0020 DB020000 		.word	.L17+1
+ 450 0024 F1020000 		.word	.L18+1
+ 451 0028 07030000 		.word	.L19+1
+ 452 002c 1D030000 		.word	.L20+1
+ 453 0030 33030000 		.word	.L21+1
+ 454 0034 49030000 		.word	.L22+1
+ 455 0038 5F030000 		.word	.L23+1
+ 456 003c 75030000 		.word	.L24+1
+ 457 0040 8B030000 		.word	.L25+1
+ 458 0044 A1030000 		.word	.L52+1
+ 459 0048 A1030000 		.word	.L52+1
+ 460 004c A1030000 		.word	.L52+1
+ 461 0050 A1030000 		.word	.L52+1
+ 462 0054 A1030000 		.word	.L52+1
+ 463 0058 A1030000 		.word	.L52+1
+ 464 005c A1030000 		.word	.L52+1
+ 465 0060 49010000 		.word	.L26+1
+ 466 0064 53010000 		.word	.L27+1
+ 467 0068 65010000 		.word	.L28+1
+ 468 006c 77010000 		.word	.L29+1
+ 469 0070 85010000 		.word	.L30+1
+ 470 0074 8B010000 		.word	.L31+1
+ 471 0078 9D010000 		.word	.L32+1
+ 472 007c AB010000 		.word	.L33+1
+ 473 0080 BD010000 		.word	.L34+1
+ 474 0084 C7010000 		.word	.L35+1
+ 475 0088 D9010000 		.word	.L36+1
+ 476 008c E7010000 		.word	.L37+1
+ 477 0090 F9010000 		.word	.L38+1
+ 478 0094 03020000 		.word	.L39+1
+ 479 0098 0D020000 		.word	.L40+1
+ 480 009c 1B020000 		.word	.L41+1
+ 481 00a0 2D020000 		.word	.L42+1
+ 482 00a4 3F020000 		.word	.L43+1
+ 483 00a8 4D020000 		.word	.L44+1
+ 484 00ac 5B020000 		.word	.L45+1
+ 485 00b0 61020000 		.word	.L46+1
+ 486 00b4 6F020000 		.word	.L47+1
+ 487 00b8 81020000 		.word	.L48+1
+ 488 00bc 8F020000 		.word	.L49+1
+ 489 00c0 A1020000 		.word	.L50+1
+ 490 00c4 B3020000 		.word	.L51+1
+ 491 00c8 A1030000 		.word	.L52+1
+ 492 00cc A1030000 		.word	.L52+1
+ 493 00d0 A1030000 		.word	.L52+1
+ 494 00d4 A1030000 		.word	.L52+1
+ 495 00d8 A1030000 		.word	.L52+1
+ 496 00dc A1030000 		.word	.L52+1
+ 497 00e0 49010000 		.word	.L26+1
+ 498 00e4 53010000 		.word	.L27+1
+ 499 00e8 65010000 		.word	.L28+1
+ 500 00ec 77010000 		.word	.L29+1
+ 501 00f0 85010000 		.word	.L30+1
+ 502 00f4 8B010000 		.word	.L31+1
+ 503 00f8 9D010000 		.word	.L32+1
+ 504 00fc AB010000 		.word	.L33+1
+ 505 0100 BD010000 		.word	.L34+1
+ 506 0104 C7010000 		.word	.L35+1
+ 507 0108 D9010000 		.word	.L36+1
+ 508 010c E7010000 		.word	.L37+1
+ 509 0110 F9010000 		.word	.L38+1
+ 510 0114 03020000 		.word	.L39+1
+ 511 0118 0D020000 		.word	.L40+1
+ 512 011c 1B020000 		.word	.L41+1
+ 513 0120 2D020000 		.word	.L42+1
+ 514 0124 3F020000 		.word	.L43+1
+ 515 0128 4D020000 		.word	.L44+1
+ 516 012c 5B020000 		.word	.L45+1
+ 517 0130 61020000 		.word	.L46+1
+ 518 0134 6F020000 		.word	.L47+1
+ 519 0138 81020000 		.word	.L48+1
+ 520 013c 8F020000 		.word	.L49+1
+ 521 0140 A1020000 		.word	.L50+1
+ 522 0144 B3020000 		.word	.L51+1
+ 523              		.p2align 1
+ 524              	.L26:
+ 115:morse_definition.c **** 		case 'a':
+ 116:morse_definition.c **** 		case 'A':
+ 117:morse_definition.c **** 					dot();
+ 525              		.loc 2 117 0
+ 526 0148 FFF7FEFF 		bl	dot
+ 118:morse_definition.c **** 					dash();
+ 527              		.loc 2 118 0
+ 528 014c FFF7FEFF 		bl	dash
+ 119:morse_definition.c **** 				break;
+ 529              		.loc 2 119 0
+ 530 0150 26E1     		b	.L14
+ 531              	.L27:
+ 120:morse_definition.c **** 		case 'b':
+ 121:morse_definition.c **** 		case 'B':
+ 122:morse_definition.c **** 					dash();
+ 532              		.loc 2 122 0
+ 533 0152 FFF7FEFF 		bl	dash
+ 123:morse_definition.c **** 					dot();
+ 534              		.loc 2 123 0
+ 535 0156 FFF7FEFF 		bl	dot
+ 124:morse_definition.c **** 					dot();
+ 536              		.loc 2 124 0
+ 537 015a FFF7FEFF 		bl	dot
+ 125:morse_definition.c **** 					dot();
+ 538              		.loc 2 125 0
+ 539 015e FFF7FEFF 		bl	dot
+ 126:morse_definition.c **** 				break;
+ 540              		.loc 2 126 0
+ 541 0162 1DE1     		b	.L14
+ 542              	.L28:
+ 127:morse_definition.c **** 		case 'c':
+ 128:morse_definition.c **** 		case 'C':
+ 129:morse_definition.c **** 					dash();
+ 543              		.loc 2 129 0
+ 544 0164 FFF7FEFF 		bl	dash
+ 130:morse_definition.c **** 					dot();
+ 545              		.loc 2 130 0
+ 546 0168 FFF7FEFF 		bl	dot
+ 131:morse_definition.c **** 					dash();
+ 547              		.loc 2 131 0
+ 548 016c FFF7FEFF 		bl	dash
+ 132:morse_definition.c **** 					dot();
+ 549              		.loc 2 132 0
+ 550 0170 FFF7FEFF 		bl	dot
+ 133:morse_definition.c **** 				break;
+ 551              		.loc 2 133 0
+ 552 0174 14E1     		b	.L14
+ 553              	.L29:
+ 134:morse_definition.c **** 		case 'd':
+ 135:morse_definition.c **** 		case 'D':
+ 136:morse_definition.c **** 					dash();
+ 554              		.loc 2 136 0
+ 555 0176 FFF7FEFF 		bl	dash
+ 137:morse_definition.c **** 					dot();
+ 556              		.loc 2 137 0
+ 557 017a FFF7FEFF 		bl	dot
+ 138:morse_definition.c **** 					dot();
+ 558              		.loc 2 138 0
+ 559 017e FFF7FEFF 		bl	dot
+ 139:morse_definition.c **** 				break;
+ 560              		.loc 2 139 0
+ 561 0182 0DE1     		b	.L14
+ 562              	.L30:
+ 140:morse_definition.c **** 		case 'e':
+ 141:morse_definition.c **** 		case 'E':
+ 142:morse_definition.c **** 					dot();
+ 563              		.loc 2 142 0
+ 564 0184 FFF7FEFF 		bl	dot
+ 143:morse_definition.c **** 				break;
+ 565              		.loc 2 143 0
+ 566 0188 0AE1     		b	.L14
+ 567              	.L31:
+ 144:morse_definition.c **** 		case 'f':
+ 145:morse_definition.c **** 		case 'F':
+ 146:morse_definition.c **** 					dot();
+ 568              		.loc 2 146 0
+ 569 018a FFF7FEFF 		bl	dot
+ 147:morse_definition.c **** 					dot();
+ 570              		.loc 2 147 0
+ 571 018e FFF7FEFF 		bl	dot
+ 148:morse_definition.c **** 					dash();
+ 572              		.loc 2 148 0
+ 573 0192 FFF7FEFF 		bl	dash
+ 149:morse_definition.c **** 					dot();
+ 574              		.loc 2 149 0
+ 575 0196 FFF7FEFF 		bl	dot
+ 150:morse_definition.c **** 				break;
+ 576              		.loc 2 150 0
+ 577 019a 01E1     		b	.L14
+ 578              	.L32:
+ 151:morse_definition.c **** 		case 'g':
+ 152:morse_definition.c **** 		case 'G':
+ 153:morse_definition.c **** 					dash();
+ 579              		.loc 2 153 0
+ 580 019c FFF7FEFF 		bl	dash
+ 154:morse_definition.c **** 					dash();
+ 581              		.loc 2 154 0
+ 582 01a0 FFF7FEFF 		bl	dash
+ 155:morse_definition.c **** 					dot();
+ 583              		.loc 2 155 0
+ 584 01a4 FFF7FEFF 		bl	dot
+ 156:morse_definition.c **** 				break;
+ 585              		.loc 2 156 0
+ 586 01a8 FAE0     		b	.L14
+ 587              	.L33:
+ 157:morse_definition.c **** 		case 'h':
+ 158:morse_definition.c **** 		case 'H':
+ 159:morse_definition.c **** 					dot();
+ 588              		.loc 2 159 0
+ 589 01aa FFF7FEFF 		bl	dot
+ 160:morse_definition.c **** 					dot();
+ 590              		.loc 2 160 0
+ 591 01ae FFF7FEFF 		bl	dot
+ 161:morse_definition.c **** 					dot();
+ 592              		.loc 2 161 0
+ 593 01b2 FFF7FEFF 		bl	dot
+ 162:morse_definition.c **** 					dot();
+ 594              		.loc 2 162 0
+ 595 01b6 FFF7FEFF 		bl	dot
+ 163:morse_definition.c **** 				break;
+ 596              		.loc 2 163 0
+ 597 01ba F1E0     		b	.L14
+ 598              	.L34:
+ 164:morse_definition.c **** 		case 'i':
+ 165:morse_definition.c **** 		case 'I':
+ 166:morse_definition.c **** 					dot();
+ 599              		.loc 2 166 0
+ 600 01bc FFF7FEFF 		bl	dot
+ 167:morse_definition.c **** 					dot();
+ 601              		.loc 2 167 0
+ 602 01c0 FFF7FEFF 		bl	dot
+ 168:morse_definition.c **** 				break;
+ 603              		.loc 2 168 0
+ 604 01c4 ECE0     		b	.L14
+ 605              	.L35:
+ 169:morse_definition.c **** 		case 'j':
+ 170:morse_definition.c **** 		case 'J':
+ 171:morse_definition.c **** 					dot();
+ 606              		.loc 2 171 0
+ 607 01c6 FFF7FEFF 		bl	dot
+ 172:morse_definition.c **** 					dash();
+ 608              		.loc 2 172 0
+ 609 01ca FFF7FEFF 		bl	dash
+ 173:morse_definition.c **** 					dash();
+ 610              		.loc 2 173 0
+ 611 01ce FFF7FEFF 		bl	dash
+ 174:morse_definition.c **** 					dash();
+ 612              		.loc 2 174 0
+ 613 01d2 FFF7FEFF 		bl	dash
+ 175:morse_definition.c **** 				break;
+ 614              		.loc 2 175 0
+ 615 01d6 E3E0     		b	.L14
+ 616              	.L36:
+ 176:morse_definition.c **** 		case 'k':
+ 177:morse_definition.c **** 		case 'K':
+ 178:morse_definition.c **** 					dash();
+ 617              		.loc 2 178 0
+ 618 01d8 FFF7FEFF 		bl	dash
+ 179:morse_definition.c **** 					dot();
+ 619              		.loc 2 179 0
+ 620 01dc FFF7FEFF 		bl	dot
+ 180:morse_definition.c **** 					dash();
+ 621              		.loc 2 180 0
+ 622 01e0 FFF7FEFF 		bl	dash
+ 181:morse_definition.c **** 				break;
+ 623              		.loc 2 181 0
+ 624 01e4 DCE0     		b	.L14
+ 625              	.L37:
+ 182:morse_definition.c **** 		case 'l':
+ 183:morse_definition.c **** 		case 'L':
+ 184:morse_definition.c **** 					dot();
+ 626              		.loc 2 184 0
+ 627 01e6 FFF7FEFF 		bl	dot
+ 185:morse_definition.c **** 					dash();
+ 628              		.loc 2 185 0
+ 629 01ea FFF7FEFF 		bl	dash
+ 186:morse_definition.c **** 					dot();
+ 630              		.loc 2 186 0
+ 631 01ee FFF7FEFF 		bl	dot
+ 187:morse_definition.c **** 					dot();
+ 632              		.loc 2 187 0
+ 633 01f2 FFF7FEFF 		bl	dot
+ 188:morse_definition.c **** 				break;
+ 634              		.loc 2 188 0
+ 635 01f6 D3E0     		b	.L14
+ 636              	.L38:
+ 189:morse_definition.c **** 		case 'm':
+ 190:morse_definition.c **** 		case 'M':
+ 191:morse_definition.c **** 					dash();
+ 637              		.loc 2 191 0
+ 638 01f8 FFF7FEFF 		bl	dash
+ 192:morse_definition.c **** 					dash();
+ 639              		.loc 2 192 0
+ 640 01fc FFF7FEFF 		bl	dash
+ 193:morse_definition.c **** 				break;
+ 641              		.loc 2 193 0
+ 642 0200 CEE0     		b	.L14
+ 643              	.L39:
+ 194:morse_definition.c **** 		case 'n':
+ 195:morse_definition.c **** 		case 'N':
+ 196:morse_definition.c **** 					dash();
+ 644              		.loc 2 196 0
+ 645 0202 FFF7FEFF 		bl	dash
+ 197:morse_definition.c **** 					dot();
+ 646              		.loc 2 197 0
+ 647 0206 FFF7FEFF 		bl	dot
+ 198:morse_definition.c **** 				break;
+ 648              		.loc 2 198 0
+ 649 020a C9E0     		b	.L14
+ 650              	.L40:
+ 199:morse_definition.c **** 		case 'o':
+ 200:morse_definition.c **** 		case 'O':
+ 201:morse_definition.c **** 					dash();
+ 651              		.loc 2 201 0
+ 652 020c FFF7FEFF 		bl	dash
+ 202:morse_definition.c **** 					dash();
+ 653              		.loc 2 202 0
+ 654 0210 FFF7FEFF 		bl	dash
+ 203:morse_definition.c **** 					dash();
+ 655              		.loc 2 203 0
+ 656 0214 FFF7FEFF 		bl	dash
+ 204:morse_definition.c **** 				break;
+ 657              		.loc 2 204 0
+ 658 0218 C2E0     		b	.L14
+ 659              	.L41:
+ 205:morse_definition.c **** 		case 'p':
+ 206:morse_definition.c **** 		case 'P':
+ 207:morse_definition.c **** 					dot();
+ 660              		.loc 2 207 0
+ 661 021a FFF7FEFF 		bl	dot
+ 208:morse_definition.c **** 					dash();
+ 662              		.loc 2 208 0
+ 663 021e FFF7FEFF 		bl	dash
+ 209:morse_definition.c **** 					dash();
+ 664              		.loc 2 209 0
+ 665 0222 FFF7FEFF 		bl	dash
+ 210:morse_definition.c **** 					dot();
+ 666              		.loc 2 210 0
+ 667 0226 FFF7FEFF 		bl	dot
+ 211:morse_definition.c **** 				break;
+ 668              		.loc 2 211 0
+ 669 022a B9E0     		b	.L14
+ 670              	.L42:
+ 212:morse_definition.c **** 		case 'q':
+ 213:morse_definition.c **** 		case 'Q':
+ 214:morse_definition.c **** 					dash();
+ 671              		.loc 2 214 0
+ 672 022c FFF7FEFF 		bl	dash
+ 215:morse_definition.c **** 					dash();
+ 673              		.loc 2 215 0
+ 674 0230 FFF7FEFF 		bl	dash
+ 216:morse_definition.c **** 					dot();
+ 675              		.loc 2 216 0
+ 676 0234 FFF7FEFF 		bl	dot
+ 217:morse_definition.c **** 					dash();
+ 677              		.loc 2 217 0
+ 678 0238 FFF7FEFF 		bl	dash
+ 218:morse_definition.c **** 				break;
+ 679              		.loc 2 218 0
+ 680 023c B0E0     		b	.L14
+ 681              	.L43:
+ 219:morse_definition.c **** 		case 'r':
+ 220:morse_definition.c **** 		case 'R':
+ 221:morse_definition.c **** 					dot();
+ 682              		.loc 2 221 0
+ 683 023e FFF7FEFF 		bl	dot
+ 222:morse_definition.c **** 					dash();
+ 684              		.loc 2 222 0
+ 685 0242 FFF7FEFF 		bl	dash
+ 223:morse_definition.c **** 					dot();
+ 686              		.loc 2 223 0
+ 687 0246 FFF7FEFF 		bl	dot
+ 224:morse_definition.c **** 				break;
+ 688              		.loc 2 224 0
+ 689 024a A9E0     		b	.L14
+ 690              	.L44:
+ 225:morse_definition.c **** 		case 's':
+ 226:morse_definition.c **** 		case 'S':
+ 227:morse_definition.c **** 					dot();
+ 691              		.loc 2 227 0
+ 692 024c FFF7FEFF 		bl	dot
+ 228:morse_definition.c **** 					dot();
+ 693              		.loc 2 228 0
+ 694 0250 FFF7FEFF 		bl	dot
+ 229:morse_definition.c **** 					dot();
+ 695              		.loc 2 229 0
+ 696 0254 FFF7FEFF 		bl	dot
+ 230:morse_definition.c **** 				break;
+ 697              		.loc 2 230 0
+ 698 0258 A2E0     		b	.L14
+ 699              	.L45:
+ 231:morse_definition.c **** 		case 't':
+ 232:morse_definition.c **** 		case 'T':
+ 233:morse_definition.c **** 					dash();
+ 700              		.loc 2 233 0
+ 701 025a FFF7FEFF 		bl	dash
+ 234:morse_definition.c **** 				break;
+ 702              		.loc 2 234 0
+ 703 025e 9FE0     		b	.L14
+ 704              	.L46:
+ 235:morse_definition.c **** 		case 'u':
+ 236:morse_definition.c **** 		case 'U':
+ 237:morse_definition.c **** 					dot();
+ 705              		.loc 2 237 0
+ 706 0260 FFF7FEFF 		bl	dot
+ 238:morse_definition.c **** 					dot();
+ 707              		.loc 2 238 0
+ 708 0264 FFF7FEFF 		bl	dot
+ 239:morse_definition.c **** 					dash();
+ 709              		.loc 2 239 0
+ 710 0268 FFF7FEFF 		bl	dash
+ 240:morse_definition.c **** 				break;
+ 711              		.loc 2 240 0
+ 712 026c 98E0     		b	.L14
+ 713              	.L47:
+ 241:morse_definition.c **** 		case 'v':
+ 242:morse_definition.c **** 		case 'V':
+ 243:morse_definition.c **** 					dot();
+ 714              		.loc 2 243 0
+ 715 026e FFF7FEFF 		bl	dot
+ 244:morse_definition.c **** 					dot();
+ 716              		.loc 2 244 0
+ 717 0272 FFF7FEFF 		bl	dot
+ 245:morse_definition.c **** 					dot();
+ 718              		.loc 2 245 0
+ 719 0276 FFF7FEFF 		bl	dot
+ 246:morse_definition.c **** 					dash();
+ 720              		.loc 2 246 0
+ 721 027a FFF7FEFF 		bl	dash
+ 247:morse_definition.c **** 				break;
+ 722              		.loc 2 247 0
+ 723 027e 8FE0     		b	.L14
+ 724              	.L48:
+ 248:morse_definition.c **** 		case 'w':
+ 249:morse_definition.c **** 		case 'W':
+ 250:morse_definition.c **** 					dot();
+ 725              		.loc 2 250 0
+ 726 0280 FFF7FEFF 		bl	dot
+ 251:morse_definition.c **** 					dash();
+ 727              		.loc 2 251 0
+ 728 0284 FFF7FEFF 		bl	dash
+ 252:morse_definition.c **** 					dash();
+ 729              		.loc 2 252 0
+ 730 0288 FFF7FEFF 		bl	dash
+ 253:morse_definition.c **** 				break;
+ 731              		.loc 2 253 0
+ 732 028c 88E0     		b	.L14
+ 733              	.L49:
+ 254:morse_definition.c **** 		case 'x':
+ 255:morse_definition.c **** 		case 'X':
+ 256:morse_definition.c **** 					dash();
+ 734              		.loc 2 256 0
+ 735 028e FFF7FEFF 		bl	dash
+ 257:morse_definition.c **** 					dot();
+ 736              		.loc 2 257 0
+ 737 0292 FFF7FEFF 		bl	dot
+ 258:morse_definition.c **** 					dot();
+ 738              		.loc 2 258 0
+ 739 0296 FFF7FEFF 		bl	dot
+ 259:morse_definition.c **** 					dash();
+ 740              		.loc 2 259 0
+ 741 029a FFF7FEFF 		bl	dash
+ 260:morse_definition.c **** 				break;
+ 742              		.loc 2 260 0
+ 743 029e 7FE0     		b	.L14
+ 744              	.L50:
+ 261:morse_definition.c **** 		case 'y':
+ 262:morse_definition.c **** 		case 'Y':
+ 263:morse_definition.c **** 					dash();
+ 745              		.loc 2 263 0
+ 746 02a0 FFF7FEFF 		bl	dash
+ 264:morse_definition.c **** 					dot();
+ 747              		.loc 2 264 0
+ 748 02a4 FFF7FEFF 		bl	dot
+ 265:morse_definition.c **** 					dash();
+ 749              		.loc 2 265 0
+ 750 02a8 FFF7FEFF 		bl	dash
+ 266:morse_definition.c **** 					dash();
+ 751              		.loc 2 266 0
+ 752 02ac FFF7FEFF 		bl	dash
+ 267:morse_definition.c **** 				break;
+ 753              		.loc 2 267 0
+ 754 02b0 76E0     		b	.L14
+ 755              	.L51:
+ 268:morse_definition.c **** 		case 'z':
+ 269:morse_definition.c **** 		case 'Z':
+ 270:morse_definition.c **** 					dash();
+ 756              		.loc 2 270 0
+ 757 02b2 FFF7FEFF 		bl	dash
+ 271:morse_definition.c **** 					dash();
+ 758              		.loc 2 271 0
+ 759 02b6 FFF7FEFF 		bl	dash
+ 272:morse_definition.c **** 					dot();
+ 760              		.loc 2 272 0
+ 761 02ba FFF7FEFF 		bl	dot
+ 273:morse_definition.c **** 					dot();
+ 762              		.loc 2 273 0
+ 763 02be FFF7FEFF 		bl	dot
+ 274:morse_definition.c **** 				break;
+ 764              		.loc 2 274 0
+ 765 02c2 6DE0     		b	.L14
+ 766              	.L15:
+ 275:morse_definition.c **** 		case '0':
+ 276:morse_definition.c **** 					dash();
+ 767              		.loc 2 276 0
+ 768 02c4 FFF7FEFF 		bl	dash
+ 277:morse_definition.c **** 					dash();
+ 769              		.loc 2 277 0
+ 770 02c8 FFF7FEFF 		bl	dash
+ 278:morse_definition.c **** 					dash();
+ 771              		.loc 2 278 0
+ 772 02cc FFF7FEFF 		bl	dash
+ 279:morse_definition.c **** 					dash();
+ 773              		.loc 2 279 0
+ 774 02d0 FFF7FEFF 		bl	dash
+ 280:morse_definition.c **** 					dash();
+ 775              		.loc 2 280 0
+ 776 02d4 FFF7FEFF 		bl	dash
+ 281:morse_definition.c **** 				break;
+ 777              		.loc 2 281 0
+ 778 02d8 62E0     		b	.L14
+ 779              	.L17:
+ 282:morse_definition.c **** 		case '1':
+ 283:morse_definition.c **** 					dot();
+ 780              		.loc 2 283 0
+ 781 02da FFF7FEFF 		bl	dot
+ 284:morse_definition.c **** 					dash();
+ 782              		.loc 2 284 0
+ 783 02de FFF7FEFF 		bl	dash
+ 285:morse_definition.c **** 					dash();
+ 784              		.loc 2 285 0
+ 785 02e2 FFF7FEFF 		bl	dash
+ 286:morse_definition.c **** 					dash();
+ 786              		.loc 2 286 0
+ 787 02e6 FFF7FEFF 		bl	dash
+ 287:morse_definition.c **** 					dash();
+ 788              		.loc 2 287 0
+ 789 02ea FFF7FEFF 		bl	dash
+ 288:morse_definition.c **** 				break;
+ 790              		.loc 2 288 0
+ 791 02ee 57E0     		b	.L14
+ 792              	.L18:
+ 289:morse_definition.c **** 		case '2':
+ 290:morse_definition.c **** 					dot();
+ 793              		.loc 2 290 0
+ 794 02f0 FFF7FEFF 		bl	dot
+ 291:morse_definition.c **** 					dot();
+ 795              		.loc 2 291 0
+ 796 02f4 FFF7FEFF 		bl	dot
+ 292:morse_definition.c **** 					dash();
+ 797              		.loc 2 292 0
+ 798 02f8 FFF7FEFF 		bl	dash
+ 293:morse_definition.c **** 					dash();
+ 799              		.loc 2 293 0
+ 800 02fc FFF7FEFF 		bl	dash
+ 294:morse_definition.c **** 					dash();
+ 801              		.loc 2 294 0
+ 802 0300 FFF7FEFF 		bl	dash
+ 295:morse_definition.c **** 				break;
+ 803              		.loc 2 295 0
+ 804 0304 4CE0     		b	.L14
+ 805              	.L19:
+ 296:morse_definition.c **** 		case '3':
+ 297:morse_definition.c **** 					dot();
+ 806              		.loc 2 297 0
+ 807 0306 FFF7FEFF 		bl	dot
+ 298:morse_definition.c **** 					dot();
+ 808              		.loc 2 298 0
+ 809 030a FFF7FEFF 		bl	dot
+ 299:morse_definition.c **** 					dot();
+ 810              		.loc 2 299 0
+ 811 030e FFF7FEFF 		bl	dot
+ 300:morse_definition.c **** 					dash();
+ 812              		.loc 2 300 0
+ 813 0312 FFF7FEFF 		bl	dash
+ 301:morse_definition.c **** 					dash();
+ 814              		.loc 2 301 0
+ 815 0316 FFF7FEFF 		bl	dash
+ 302:morse_definition.c **** 				break;
+ 816              		.loc 2 302 0
+ 817 031a 41E0     		b	.L14
+ 818              	.L20:
+ 303:morse_definition.c **** 		case '4':
+ 304:morse_definition.c **** 					dot();
+ 819              		.loc 2 304 0
+ 820 031c FFF7FEFF 		bl	dot
+ 305:morse_definition.c **** 					dot();
+ 821              		.loc 2 305 0
+ 822 0320 FFF7FEFF 		bl	dot
+ 306:morse_definition.c **** 					dot();
+ 823              		.loc 2 306 0
+ 824 0324 FFF7FEFF 		bl	dot
+ 307:morse_definition.c **** 					dot();
+ 825              		.loc 2 307 0
+ 826 0328 FFF7FEFF 		bl	dot
+ 308:morse_definition.c **** 					dash();
+ 827              		.loc 2 308 0
+ 828 032c FFF7FEFF 		bl	dash
+ 309:morse_definition.c **** 				break;
+ 829              		.loc 2 309 0
+ 830 0330 36E0     		b	.L14
+ 831              	.L21:
+ 310:morse_definition.c **** 		case '5':
+ 311:morse_definition.c **** 					dot();
+ 832              		.loc 2 311 0
+ 833 0332 FFF7FEFF 		bl	dot
+ 312:morse_definition.c **** 					dot();
+ 834              		.loc 2 312 0
+ 835 0336 FFF7FEFF 		bl	dot
+ 313:morse_definition.c **** 					dot();
+ 836              		.loc 2 313 0
+ 837 033a FFF7FEFF 		bl	dot
+ 314:morse_definition.c **** 					dot();
+ 838              		.loc 2 314 0
+ 839 033e FFF7FEFF 		bl	dot
+ 315:morse_definition.c **** 					dot();
+ 840              		.loc 2 315 0
+ 841 0342 FFF7FEFF 		bl	dot
+ 316:morse_definition.c **** 				break;
+ 842              		.loc 2 316 0
+ 843 0346 2BE0     		b	.L14
+ 844              	.L22:
+ 317:morse_definition.c **** 		case '6':
+ 318:morse_definition.c **** 					dash();
+ 845              		.loc 2 318 0
+ 846 0348 FFF7FEFF 		bl	dash
+ 319:morse_definition.c **** 					dot();
+ 847              		.loc 2 319 0
+ 848 034c FFF7FEFF 		bl	dot
+ 320:morse_definition.c **** 					dot();
+ 849              		.loc 2 320 0
+ 850 0350 FFF7FEFF 		bl	dot
+ 321:morse_definition.c **** 					dot();
+ 851              		.loc 2 321 0
+ 852 0354 FFF7FEFF 		bl	dot
+ 322:morse_definition.c **** 					dot();
+ 853              		.loc 2 322 0
+ 854 0358 FFF7FEFF 		bl	dot
+ 323:morse_definition.c **** 				break;
+ 855              		.loc 2 323 0
+ 856 035c 20E0     		b	.L14
+ 857              	.L23:
+ 324:morse_definition.c **** 		case '7':
+ 325:morse_definition.c **** 					dash();
+ 858              		.loc 2 325 0
+ 859 035e FFF7FEFF 		bl	dash
+ 326:morse_definition.c **** 					dash();
+ 860              		.loc 2 326 0
+ 861 0362 FFF7FEFF 		bl	dash
+ 327:morse_definition.c **** 					dot();
+ 862              		.loc 2 327 0
+ 863 0366 FFF7FEFF 		bl	dot
+ 328:morse_definition.c **** 					dot();
+ 864              		.loc 2 328 0
+ 865 036a FFF7FEFF 		bl	dot
+ 329:morse_definition.c **** 					dot();
+ 866              		.loc 2 329 0
+ 867 036e FFF7FEFF 		bl	dot
+ 330:morse_definition.c **** 				break;
+ 868              		.loc 2 330 0
+ 869 0372 15E0     		b	.L14
+ 870              	.L24:
+ 331:morse_definition.c **** 		case '8':
+ 332:morse_definition.c **** 					dash();
+ 871              		.loc 2 332 0
+ 872 0374 FFF7FEFF 		bl	dash
+ 333:morse_definition.c **** 					dash();
+ 873              		.loc 2 333 0
+ 874 0378 FFF7FEFF 		bl	dash
+ 334:morse_definition.c **** 					dash();
+ 875              		.loc 2 334 0
+ 876 037c FFF7FEFF 		bl	dash
+ 335:morse_definition.c **** 					dot();
+ 877              		.loc 2 335 0
+ 878 0380 FFF7FEFF 		bl	dot
+ 336:morse_definition.c **** 					dot();
+ 879              		.loc 2 336 0
+ 880 0384 FFF7FEFF 		bl	dot
+ 337:morse_definition.c **** 				break;
+ 881              		.loc 2 337 0
+ 882 0388 0AE0     		b	.L14
+ 883              	.L25:
+ 338:morse_definition.c **** 		case '9':
+ 339:morse_definition.c **** 					dash();
+ 884              		.loc 2 339 0
+ 885 038a FFF7FEFF 		bl	dash
+ 340:morse_definition.c **** 					dash();
+ 886              		.loc 2 340 0
+ 887 038e FFF7FEFF 		bl	dash
+ 341:morse_definition.c **** 					dash();
+ 888              		.loc 2 341 0
+ 889 0392 FFF7FEFF 		bl	dash
+ 342:morse_definition.c **** 					dash();
+ 890              		.loc 2 342 0
+ 891 0396 FFF7FEFF 		bl	dash
+ 343:morse_definition.c **** 					dot();
+ 892              		.loc 2 343 0
+ 893 039a FFF7FEFF 		bl	dot
+ 344:morse_definition.c **** 				break;
+ 894              		.loc 2 344 0
+ 895 039e 00BF     		nop
+ 896              	.L14:
+ 897              	.L52:
+ 345:morse_definition.c **** 		default: 
+ 346:morse_definition.c **** 					;			// Do Nothing
+ 347:morse_definition.c **** 	}
+ 348:morse_definition.c **** }
+ 898              		.loc 2 348 0
+ 899 03a0 00BF     		nop
+ 900 03a2 0837     		adds	r7, r7, #8
+ 901              	.LCFI26:
+ 902              		.cfi_def_cfa_offset 8
+ 903 03a4 BD46     		mov	sp, r7
+ 904              	.LCFI27:
+ 905              		.cfi_def_cfa_register 13
+ 906              		@ sp needed
+ 907 03a6 80BD     		pop	{r7, pc}
+ 908              		.cfi_endproc
+ 909              	.LFE142:
+ 911              		.text
+ 912              	.Letext0:
+ 913              		.file 3 "/usr/arm-none-eabi/include/machine/_default_types.h"
+ 914              		.file 4 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 915              		.file 5 "/usr/arm-none-eabi/include/sys/lock.h"
+ 916              		.file 6 "/usr/arm-none-eabi/include/sys/_types.h"
+ 917              		.file 7 "/usr/lib/gcc/arm-none-eabi/7.3.1/include/stddef.h"
+ 918              		.file 8 "/usr/arm-none-eabi/include/sys/reent.h"
+ 919              		.file 9 "/opt/XMClib/XMC_Peripheral_Library_v2.1.16/CMSIS/Include/core_cm4.h"
+ 920              		.file 10 "/opt/XMClib/XMC_Peripheral_Library_v2.1.16/CMSIS/Infineon/XMC4500_series/Include/system_
+ 921              		.file 11 "morse_definition.h"
+ 922              		.file 12 "/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc4_gpio.h"
+ 923              		.file 13 "timer_config.h"
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 morse_definition.c
+     /tmp/ccjIdBlw.s:20     .rodata:0000000000000000 dotDuration
+     /tmp/ccjIdBlw.s:26     .rodata:0000000000000002 dashDuration
+     /tmp/ccjIdBlw.s:23     .rodata:0000000000000001 $d
+     /tmp/ccjIdBlw.s:32     .rodata:0000000000000004 letterSpacing
+     /tmp/ccjIdBlw.s:38     .rodata:0000000000000006 wordSpacing
+     /tmp/ccjIdBlw.s:41     .text.XMC_GPIO_SetOutputHigh:0000000000000000 $t
+     /tmp/ccjIdBlw.s:47     .text.XMC_GPIO_SetOutputHigh:0000000000000000 XMC_GPIO_SetOutputHigh
+     /tmp/ccjIdBlw.s:92     .text.XMC_GPIO_SetOutputLow:0000000000000000 $t
+     /tmp/ccjIdBlw.s:98     .text.XMC_GPIO_SetOutputLow:0000000000000000 XMC_GPIO_SetOutputLow
+                            *COM*:0000000000000004 globalSysTickCounter
+     /tmp/ccjIdBlw.s:151    .text.initGPIO:0000000000000000 $t
+     /tmp/ccjIdBlw.s:158    .text.initGPIO:0000000000000000 initGPIO
+     /tmp/ccjIdBlw.s:200    .text.initGPIO:0000000000000024 $d
+     /tmp/ccjIdBlw.s:206    .text.dot:0000000000000000 $t
+     /tmp/ccjIdBlw.s:213    .text.dot:0000000000000000 dot
+     /tmp/ccjIdBlw.s:249    .text.dot:0000000000000028 $d
+     /tmp/ccjIdBlw.s:254    .text.dash:0000000000000000 $t
+     /tmp/ccjIdBlw.s:261    .text.dash:0000000000000000 dash
+     /tmp/ccjIdBlw.s:297    .text.dash:000000000000002c $d
+     /tmp/ccjIdBlw.s:302    .text.transmitMessage:0000000000000000 $t
+     /tmp/ccjIdBlw.s:309    .text.transmitMessage:0000000000000000 transmitMessage
+     /tmp/ccjIdBlw.s:420    .text.getMorseForCharacter:0000000000000000 getMorseForCharacter
+     /tmp/ccjIdBlw.s:413    .text.getMorseForCharacter:0000000000000000 $t
+     /tmp/ccjIdBlw.s:448    .text.getMorseForCharacter:000000000000001c $d
+     /tmp/ccjIdBlw.s:523    .text.getMorseForCharacter:0000000000000148 $t
+                           .group:0000000000000000 wm4.0.7a9f4dea188ccacb7d502cdcabb040c1
+                           .group:0000000000000000 wm4.stddef.h.39.99b5021e28f91cdb161c889e07266673
+                           .group:0000000000000000 wm4._newlib_version.h.4.875b979a44719054cd750d0952ad3fd6
+                           .group:0000000000000000 wm4.features.h.33.5bd1eea2d80518b50f7af0b5ce6750e0
+                           .group:0000000000000000 wm4._default_types.h.15.247e5cd201eca3442cbf5404108c4935
+                           .group:0000000000000000 wm4._intsup.h.10.cce27fed8484c08a33f522034c30d2b5
+                           .group:0000000000000000 wm4._stdint.h.10.c24fa3af3bc1706662bb5593a907e841
+                           .group:0000000000000000 wm4.stdint.h.23.d53047a68f4a85177f80b422d52785ed
+                           .group:0000000000000000 wm4.stdbool.h.29.07dce69c3b78884144b7f7bd19483461
+                           .group:0000000000000000 wm4.newlib.h.8.f6e543eac3f2f65163ba2ffe3b04987b
+                           .group:0000000000000000 wm4.ieeefp.h.77.220d9cccac42cd58761758bee2df4ce6
+                           .group:0000000000000000 wm4.config.h.220.6cac6a9685cfce5e83c17784171638d9
+                           .group:0000000000000000 wm4._ansi.h.31.de524f58584151836e90d8620a16f8e8
+                           .group:0000000000000000 wm4.lock.h.2.1461d1fff82dffe8bfddc23307f6484f
+                           .group:0000000000000000 wm4._types.h.125.5cf8a495f1f7ef36777ad868a1e32068
+                           .group:0000000000000000 wm4.stddef.h.161.5349cb105733e8777bfb0cf53c4e3f34
+                           .group:0000000000000000 wm4._types.h.184.03611d4f6b5bec9997bcf4279eceba07
+                           .group:0000000000000000 wm4.reent.h.17.90c2574d4acdcfce933db5cb09ff35fe
+                           .group:0000000000000000 wm4.cdefs.h.47.14fad0b327eb9dcf106599b738d85132
+                           .group:0000000000000000 wm4.string.h.15.dab3980bf35408a4c507182805e2de3a
+                           .group:0000000000000000 wm4.stddef.h.161.19e15733342b50ead2919490b095303e
+                           .group:0000000000000000 wm4.xmc_device.h.61.ba2d082e12f51240746cffdd60d42b81
+                           .group:0000000000000000 wm4.XMC4500.h.55.9aa45b9b5790506b2dcb963e4e7adeaf
+                           .group:0000000000000000 wm4.core_cm4.h.32.6c6eb1c8daeca23ce7ba79c8e8120d52
+                           .group:0000000000000000 wm4.cmsis_gcc.h.26.91b63349961c35637933e4fba51b867b
+                           .group:0000000000000000 wm4.core_cm4.h.172.fdd5a388a160bb6ff767b7d7ee212268
+                           .group:0000000000000000 wm4.system_XMC4500.h.42.99124977c10ca8844a71949adbeabd70
+                           .group:0000000000000000 wm4.XMC4500.h.208.b340195df97f067735c4c769ba59985a
+                           .group:0000000000000000 wm4.xmc_device.h.1460.8860499b404961ffcfbb8d1fefcb2146
+                           .group:0000000000000000 wm4.xmc_common.h.92.3f4336a80569affab05a81145b87c2fc
+                           .group:0000000000000000 wm4.xmc_gpio.h.97.fa6a2e1be6030a75d960293cc3bbbd6b
+                           .group:0000000000000000 wm4.xmc4_gpio_map.h.74.66e9110cf801b78826ef5354da51c32f
+                           .group:0000000000000000 wm4.xmc4_gpio.h.79.ce6c49508b5a7769c66e7e3c21dcdfe4
+
+UNDEFINED SYMBOLS
+XMC_GPIO_Init
+delay

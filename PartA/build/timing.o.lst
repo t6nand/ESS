@@ -1,0 +1,352 @@
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 34, 1
+  11              		.eabi_attribute 18, 4
+  12              		.file	"timing.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.comm	request_sent_at_time,4,4
+  17              		.comm	response_received_at_time,4,4
+  18              		.comm	max_response_time,4,4
+  19              		.comm	send_message_flag,1,1
+  20              		.comm	send_enter_flag,1,1
+  21              		.comm	max_iteration_time,672,8
+  22              		.comm	samples_response_time,8,8
+  23              		.comm	response_counter,4,4
+  24              		.comm	max_index,4,4
+  25              		.comm	consume_on,1,1
+  26              		.global	CORE_TIME_VARIABLE
+  27              		.bss
+  28              		.align	2
+  31              	CORE_TIME_VARIABLE:
+  32 0000 00000000 		.space	4
+  33              		.global	clock_config
+  34              		.section	.rodata
+  35              		.align	2
+  38              	clock_config:
+  39 0000 50       		.byte	80
+  40 0001 02       		.byte	2
+  41 0002 04       		.byte	4
+  42 0003 01       		.byte	1
+  43 0004 0000     		.short	0
+  44 0006 01       		.byte	1
+  45 0007 00       		.space	1
+  46 0008 00       		.byte	0
+  47 0009 000000   		.space	3
+  48 000c 00000100 		.word	65536
+  49 0010 01       		.byte	1
+  50 0011 01       		.byte	1
+  51 0012 01       		.byte	1
+  52 0013 01       		.byte	1
+  53              		.section	.text.SysTick_Handler,"ax",%progbits
+  54              		.align	1
+  55              		.global	SysTick_Handler
+  56              		.syntax unified
+  57              		.thumb
+  58              		.thumb_func
+  59              		.fpu fpv4-sp-d16
+  61              	SysTick_Handler:
+  62              	.LFB203:
+  63              		.file 1 "timing.c"
+   1:timing.c      **** #include "timing.h"
+   2:timing.c      **** 
+   3:timing.c      **** /* Variables: */
+   4:timing.c      **** uint32_t CORE_TIME_VARIABLE = 0;
+   5:timing.c      **** 
+   6:timing.c      **** XMC_SCU_CLOCK_CONFIG_t clock_config = {
+   7:timing.c      ****     .syspll_config.p_div = 2,
+   8:timing.c      ****     .syspll_config.n_div = 80,
+   9:timing.c      ****     .syspll_config.k_div = 4,
+  10:timing.c      ****     .syspll_config.mode = XMC_SCU_CLOCK_SYSPLL_MODE_NORMAL,
+  11:timing.c      ****     .syspll_config.clksrc = XMC_SCU_CLOCK_SYSPLLCLKSRC_OSCHP,
+  12:timing.c      ****     .enable_oschp = true,
+  13:timing.c      ****     .calibration_mode = XMC_SCU_CLOCK_FOFI_CALIBRATION_MODE_FACTORY,
+  14:timing.c      ****     .fsys_clksrc = XMC_SCU_CLOCK_SYSCLKSRC_PLL,
+  15:timing.c      ****     .fsys_clkdiv = 1,
+  16:timing.c      ****     .fcpu_clkdiv = 1,
+  17:timing.c      ****     .fccu_clkdiv = 1,
+  18:timing.c      ****     .fperipheral_clkdiv = 1};
+  19:timing.c      **** 
+  20:timing.c      **** void SysTick_Handler(void) { CORE_TIME_VARIABLE++; }
+  64              		.loc 1 20 0
+  65              		.cfi_startproc
+  66              		@ args = 0, pretend = 0, frame = 0
+  67              		@ frame_needed = 1, uses_anonymous_args = 0
+  68              		@ link register save eliminated.
+  69 0000 80B4     		push	{r7}
+  70              	.LCFI0:
+  71              		.cfi_def_cfa_offset 4
+  72              		.cfi_offset 7, -4
+  73 0002 00AF     		add	r7, sp, #0
+  74              	.LCFI1:
+  75              		.cfi_def_cfa_register 7
+  76              		.loc 1 20 0
+  77 0004 044B     		ldr	r3, .L2
+  78 0006 1B68     		ldr	r3, [r3]
+  79 0008 0133     		adds	r3, r3, #1
+  80 000a 034A     		ldr	r2, .L2
+  81 000c 1360     		str	r3, [r2]
+  82 000e 00BF     		nop
+  83 0010 BD46     		mov	sp, r7
+  84              	.LCFI2:
+  85              		.cfi_def_cfa_register 13
+  86              		@ sp needed
+  87 0012 5DF8047B 		ldr	r7, [sp], #4
+  88              	.LCFI3:
+  89              		.cfi_restore 7
+  90              		.cfi_def_cfa_offset 0
+  91 0016 7047     		bx	lr
+  92              	.L3:
+  93              		.align	2
+  94              	.L2:
+  95 0018 00000000 		.word	CORE_TIME_VARIABLE
+  96              		.cfi_endproc
+  97              	.LFE203:
+  99              		.section	.text.SystemCoreClockSetup,"ax",%progbits
+ 100              		.align	1
+ 101              		.global	SystemCoreClockSetup
+ 102              		.syntax unified
+ 103              		.thumb
+ 104              		.thumb_func
+ 105              		.fpu fpv4-sp-d16
+ 107              	SystemCoreClockSetup:
+ 108              	.LFB204:
+  21:timing.c      **** 
+  22:timing.c      **** void SystemCoreClockSetup(void) {
+ 109              		.loc 1 22 0
+ 110              		.cfi_startproc
+ 111              		@ args = 0, pretend = 0, frame = 0
+ 112              		@ frame_needed = 1, uses_anonymous_args = 0
+ 113 0000 80B5     		push	{r7, lr}
+ 114              	.LCFI4:
+ 115              		.cfi_def_cfa_offset 8
+ 116              		.cfi_offset 7, -8
+ 117              		.cfi_offset 14, -4
+ 118 0002 00AF     		add	r7, sp, #0
+ 119              	.LCFI5:
+ 120              		.cfi_def_cfa_register 7
+  23:timing.c      ****   /* Setup settings for USB clock */
+  24:timing.c      ****   XMC_SCU_CLOCK_Init(&clock_config);
+ 121              		.loc 1 24 0
+ 122 0004 0A48     		ldr	r0, .L5
+ 123 0006 FFF7FEFF 		bl	XMC_SCU_CLOCK_Init
+  25:timing.c      **** 
+  26:timing.c      ****   XMC_SCU_CLOCK_EnableUsbPll();
+ 124              		.loc 1 26 0
+ 125 000a FFF7FEFF 		bl	XMC_SCU_CLOCK_EnableUsbPll
+  27:timing.c      ****   XMC_SCU_CLOCK_StartUsbPll(2, 64);
+ 126              		.loc 1 27 0
+ 127 000e 4021     		movs	r1, #64
+ 128 0010 0220     		movs	r0, #2
+ 129 0012 FFF7FEFF 		bl	XMC_SCU_CLOCK_StartUsbPll
+  28:timing.c      ****   XMC_SCU_CLOCK_SetUsbClockDivider(4);
+ 130              		.loc 1 28 0
+ 131 0016 0420     		movs	r0, #4
+ 132 0018 FFF7FEFF 		bl	XMC_SCU_CLOCK_SetUsbClockDivider
+  29:timing.c      ****   XMC_SCU_CLOCK_SetUsbClockSource(XMC_SCU_CLOCK_USBCLKSRC_USBPLL);
+ 133              		.loc 1 29 0
+ 134 001c 0020     		movs	r0, #0
+ 135 001e FFF7FEFF 		bl	XMC_SCU_CLOCK_SetUsbClockSource
+  30:timing.c      ****   XMC_SCU_CLOCK_EnableClock(XMC_SCU_CLOCK_USB);
+ 136              		.loc 1 30 0
+ 137 0022 0120     		movs	r0, #1
+ 138 0024 FFF7FEFF 		bl	XMC_SCU_CLOCK_EnableClock
+  31:timing.c      **** 
+  32:timing.c      ****   SystemCoreClockUpdate();
+ 139              		.loc 1 32 0
+ 140 0028 FFF7FEFF 		bl	SystemCoreClockUpdate
+  33:timing.c      **** }
+ 141              		.loc 1 33 0
+ 142 002c 00BF     		nop
+ 143 002e 80BD     		pop	{r7, pc}
+ 144              	.L6:
+ 145              		.align	2
+ 146              	.L5:
+ 147 0030 00000000 		.word	clock_config
+ 148              		.cfi_endproc
+ 149              	.LFE204:
+ 151              		.section	.text.get_system_time,"ax",%progbits
+ 152              		.align	1
+ 153              		.global	get_system_time
+ 154              		.syntax unified
+ 155              		.thumb
+ 156              		.thumb_func
+ 157              		.fpu fpv4-sp-d16
+ 159              	get_system_time:
+ 160              	.LFB205:
+  34:timing.c      **** 
+  35:timing.c      **** uint32_t get_system_time(void) { return CORE_TIME_VARIABLE; }
+ 161              		.loc 1 35 0
+ 162              		.cfi_startproc
+ 163              		@ args = 0, pretend = 0, frame = 0
+ 164              		@ frame_needed = 1, uses_anonymous_args = 0
+ 165              		@ link register save eliminated.
+ 166 0000 80B4     		push	{r7}
+ 167              	.LCFI6:
+ 168              		.cfi_def_cfa_offset 4
+ 169              		.cfi_offset 7, -4
+ 170 0002 00AF     		add	r7, sp, #0
+ 171              	.LCFI7:
+ 172              		.cfi_def_cfa_register 7
+ 173              		.loc 1 35 0
+ 174 0004 034B     		ldr	r3, .L9
+ 175 0006 1B68     		ldr	r3, [r3]
+ 176 0008 1846     		mov	r0, r3
+ 177 000a BD46     		mov	sp, r7
+ 178              	.LCFI8:
+ 179              		.cfi_def_cfa_register 13
+ 180              		@ sp needed
+ 181 000c 5DF8047B 		ldr	r7, [sp], #4
+ 182              	.LCFI9:
+ 183              		.cfi_restore 7
+ 184              		.cfi_def_cfa_offset 0
+ 185 0010 7047     		bx	lr
+ 186              	.L10:
+ 187 0012 00BF     		.align	2
+ 188              	.L9:
+ 189 0014 00000000 		.word	CORE_TIME_VARIABLE
+ 190              		.cfi_endproc
+ 191              	.LFE205:
+ 193              		.text
+ 194              	.Letext0:
+ 195              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
+ 196              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 197              		.file 4 "/usr/arm-none-eabi/include/sys/lock.h"
+ 198              		.file 5 "/usr/arm-none-eabi/include/sys/_types.h"
+ 199              		.file 6 "/usr/lib/gcc/arm-none-eabi/7.3.1/include/stddef.h"
+ 200              		.file 7 "/usr/arm-none-eabi/include/sys/reent.h"
+ 201              		.file 8 "/opt/XMClib/XMC_Peripheral_Library_v2.1.16/CMSIS/Include/core_cm4.h"
+ 202              		.file 9 "/opt/XMClib/XMC_Peripheral_Library_v2.1.16/CMSIS/Infineon/XMC4500_series/Include/system_X
+ 203              		.file 10 "/opt/XMClib/XMC_Peripheral_Library_v2.1.16/CMSIS/Infineon/XMC4500_series/Include/XMC4500
+ 204              		.file 11 "/usr/arm-none-eabi/include/stdlib.h"
+ 205              		.file 12 "/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_usbd_regs.h"
+ 206              		.file 13 "/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc4_scu.h"
+ 207              		.file 14 "/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_usbd.h"
+ 208              		.file 15 "/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/U
+ 209              		.file 16 "/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/.
+ 210              		.file 17 "/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/.
+ 211              		.file 18 "/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/.
+ 212              		.file 19 "/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/USBTask.h
+ 213              		.file 20 "/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Class/Device/H
+ 214              		.file 21 "KeyboardHID.h"
+ 215              		.file 22 "authenticator_crack.h"
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 timing.c
+                            *COM*:0000000000000004 request_sent_at_time
+                            *COM*:0000000000000004 response_received_at_time
+                            *COM*:0000000000000004 max_response_time
+                            *COM*:0000000000000001 send_message_flag
+                            *COM*:0000000000000001 send_enter_flag
+                            *COM*:00000000000002a0 max_iteration_time
+                            *COM*:0000000000000008 samples_response_time
+                            *COM*:0000000000000004 response_counter
+                            *COM*:0000000000000004 max_index
+                            *COM*:0000000000000001 consume_on
+     /tmp/ccHAvWv1.s:31     .bss:0000000000000000 CORE_TIME_VARIABLE
+     /tmp/ccHAvWv1.s:28     .bss:0000000000000000 $d
+     /tmp/ccHAvWv1.s:38     .rodata:0000000000000000 clock_config
+     /tmp/ccHAvWv1.s:35     .rodata:0000000000000000 $d
+     /tmp/ccHAvWv1.s:54     .text.SysTick_Handler:0000000000000000 $t
+     /tmp/ccHAvWv1.s:61     .text.SysTick_Handler:0000000000000000 SysTick_Handler
+     /tmp/ccHAvWv1.s:95     .text.SysTick_Handler:0000000000000018 $d
+     /tmp/ccHAvWv1.s:100    .text.SystemCoreClockSetup:0000000000000000 $t
+     /tmp/ccHAvWv1.s:107    .text.SystemCoreClockSetup:0000000000000000 SystemCoreClockSetup
+     /tmp/ccHAvWv1.s:147    .text.SystemCoreClockSetup:0000000000000030 $d
+     /tmp/ccHAvWv1.s:152    .text.get_system_time:0000000000000000 $t
+     /tmp/ccHAvWv1.s:159    .text.get_system_time:0000000000000000 get_system_time
+     /tmp/ccHAvWv1.s:189    .text.get_system_time:0000000000000014 $d
+                           .group:0000000000000000 wm4.0.7a9f4dea188ccacb7d502cdcabb040c1
+                           .group:0000000000000000 wm4.USB.h.376.cfdb9ecb25c70fec676f585dede264a7
+                           .group:0000000000000000 wm4.Common.h.60.c2f00e237f5994003db83c2422602b22
+                           .group:0000000000000000 wm4._newlib_version.h.4.875b979a44719054cd750d0952ad3fd6
+                           .group:0000000000000000 wm4.features.h.33.5bd1eea2d80518b50f7af0b5ce6750e0
+                           .group:0000000000000000 wm4._default_types.h.15.247e5cd201eca3442cbf5404108c4935
+                           .group:0000000000000000 wm4._intsup.h.10.cce27fed8484c08a33f522034c30d2b5
+                           .group:0000000000000000 wm4._stdint.h.10.c24fa3af3bc1706662bb5593a907e841
+                           .group:0000000000000000 wm4.stdint.h.23.d53047a68f4a85177f80b422d52785ed
+                           .group:0000000000000000 wm4.stdbool.h.29.07dce69c3b78884144b7f7bd19483461
+                           .group:0000000000000000 wm4.newlib.h.8.f6e543eac3f2f65163ba2ffe3b04987b
+                           .group:0000000000000000 wm4.ieeefp.h.77.220d9cccac42cd58761758bee2df4ce6
+                           .group:0000000000000000 wm4.config.h.220.6cac6a9685cfce5e83c17784171638d9
+                           .group:0000000000000000 wm4._ansi.h.31.de524f58584151836e90d8620a16f8e8
+                           .group:0000000000000000 wm4.stddef.h.39.99b5021e28f91cdb161c889e07266673
+                           .group:0000000000000000 wm4.lock.h.2.1461d1fff82dffe8bfddc23307f6484f
+                           .group:0000000000000000 wm4._types.h.125.5cf8a495f1f7ef36777ad868a1e32068
+                           .group:0000000000000000 wm4.stddef.h.161.5349cb105733e8777bfb0cf53c4e3f34
+                           .group:0000000000000000 wm4._types.h.184.03611d4f6b5bec9997bcf4279eceba07
+                           .group:0000000000000000 wm4.reent.h.17.90c2574d4acdcfce933db5cb09ff35fe
+                           .group:0000000000000000 wm4.cdefs.h.47.14fad0b327eb9dcf106599b738d85132
+                           .group:0000000000000000 wm4.string.h.15.dab3980bf35408a4c507182805e2de3a
+                           .group:0000000000000000 wm4.stddef.h.161.19e15733342b50ead2919490b095303e
+                           .group:0000000000000000 wm4.BoardTypes.h.52.ca64813ccee737bcc2115eab5e075fdb
+                           .group:0000000000000000 wm4.CompilerSpecific.h.55.4a5e5ff77cd35e49c89cf2115251aee0
+                           .group:0000000000000000 wm4.Attributes.h.56.73b3ee26b0836c2dec569a5fa6f1b355
+                           .group:0000000000000000 wm4.xmc_device.h.61.ba2d082e12f51240746cffdd60d42b81
+                           .group:0000000000000000 wm4.XMC4500.h.55.9aa45b9b5790506b2dcb963e4e7adeaf
+                           .group:0000000000000000 wm4.core_cm4.h.32.6c6eb1c8daeca23ce7ba79c8e8120d52
+                           .group:0000000000000000 wm4.cmsis_gcc.h.26.91b63349961c35637933e4fba51b867b
+                           .group:0000000000000000 wm4.core_cm4.h.172.fdd5a388a160bb6ff767b7d7ee212268
+                           .group:0000000000000000 wm4.system_XMC4500.h.42.99124977c10ca8844a71949adbeabd70
+                           .group:0000000000000000 wm4.XMC4500.h.208.b340195df97f067735c4c769ba59985a
+                           .group:0000000000000000 wm4.xmc_device.h.1460.8860499b404961ffcfbb8d1fefcb2146
+                           .group:0000000000000000 wm4.xmc_common.h.92.3f4336a80569affab05a81145b87c2fc
+                           .group:0000000000000000 wm4.Endianness.h.57.3ac00c5468f4b91b806a0e6dba047e9c
+                           .group:0000000000000000 wm4.Common.h.105.4b937a9cc9dcdb26c3f07541b0b763a8
+                           .group:0000000000000000 wm4.USBController.h.49.cbfc73805155b6fff6267400af3f4eec
+                           .group:0000000000000000 wm4.stdlib.h.13.4ed386f5c1a80d71e72172885d946ef2
+                           .group:0000000000000000 wm4.alloca.h.8.dfc0c703c47ec3e69746825b17d9e66d
+                           .group:0000000000000000 wm4.stdlib.h.56.d4493cd3736e51e9d56335045f26df45
+                           .group:0000000000000000 wm4.xmc_usbd_regs.h.80.57c6c85fa0ecbc9f8327ce445aebb9bc
+                           .group:0000000000000000 wm4.xmc4_scu.h.83.0449f5880ac071460ec1a8072311ea51
+                           .group:0000000000000000 wm4.xmc_usbd.h.122.ce57a9e6a9da48ee33ece02813c49593
+                           .group:0000000000000000 wm4.USBController_XMC4000.h.71.902f2653e09cb8b25245faa82cc6b907
+                           .group:0000000000000000 wm4.StdDescriptors.h.73.7d17e8be7a73b855fc0f8827303b7597
+                           .group:0000000000000000 wm4.Endpoint.h.73.3734de3e84ab23fb43d81f41fba620ec
+                           .group:0000000000000000 wm4.Device_XMC4000.h.86.6803bdd99d84e764a570256c87a24d0a
+                           .group:0000000000000000 wm4.StdRequestType.h.50.461dce94a3ee1fa9ff31ec5f28bd9699
+                           .group:0000000000000000 wm4.ConfigDescriptors.h.51.0d67ebf453774188abf5a503ba8f6735
+                           .group:0000000000000000 wm4.CDCClass.h.61.0d41ba255f7ce6f076fd610d8396dd1f
+                           .group:0000000000000000 wm4.CDCClassCommon.h.72.14ca578d8547e19a8a0c0d2d328483bd
+                           .group:0000000000000000 wm4.stdio.h.27.3fc80220048df77954e38daec3bb9670
+                           .group:0000000000000000 wm4.stdarg.h.34.3a23a216c0c293b3d2ea2e89281481e6
+                           .group:0000000000000000 wm4.types.h.40.e8c16e7ec36ba55f133d0616070e25fc
+                           .group:0000000000000000 wm4._endian.h.31.65a10590763c3dde1ac4a7f66d7d4891
+                           .group:0000000000000000 wm4.endian.h.9.49f3a4695c1b61e8a0808de3c4a106cb
+                           .group:0000000000000000 wm4._timeval.h.30.0e8bfd94e85db17dda3286ee81496fe6
+                           .group:0000000000000000 wm4.timespec.h.41.d855182eb0e690443ab8651bcedca6e1
+                           .group:0000000000000000 wm4.select.h.19.97ca6fd0c752a0f3b6719fd314d361e6
+                           .group:0000000000000000 wm4.types.h.69.ed3eae3cf73030a737515151ebcab7a1
+                           .group:0000000000000000 wm4.sched.h.22.c60982713a5c428609783c78f9c78d95
+                           .group:0000000000000000 wm4._pthreadtypes.h.36.fcee9961c35163dde6267ef772ad1972
+                           .group:0000000000000000 wm4.stdio.h.2.4aa87247282eca6c8f36f9de33d8df1a
+                           .group:0000000000000000 wm4.stdio.h.81.932d0c162786b883f622b8d05c120c78
+                           .group:0000000000000000 wm4.HIDClass.h.62.6bb32c59177b21a83b8e65c5a1b0a615
+                           .group:0000000000000000 wm4.HIDReportData.h.47.f13f4956396e0bec70835fe634fcc24d
+                           .group:0000000000000000 wm4.HIDParser.h.88.4b86fe94cb8d01713592cdd0391b606b
+                           .group:0000000000000000 wm4.HIDClassCommon.h.71.a60cdf9d7cd69289f43dde215b509193
+                           .group:0000000000000000 wm4.MassStorageClass.h.61.e9235f3bd090b77f36343f082ef93107
+                           .group:0000000000000000 wm4.MassStorageClassCommon.h.51.6aefecf288eb3c3c6c9bde61e26dd765
+                           .group:0000000000000000 wm4.Descriptors.h.81.5a86d5c3eca9045c72e143b752381294
+                           .group:0000000000000000 wm4.KeyboardHID.h.13.cb5c30ef2fb43d67407e82031ebeb8ac
+                           .group:0000000000000000 wm4.german_keyboardCodes.h.2.e1b4448076427773e95ef41c8020de97
+                           .group:0000000000000000 wm4.xmc_gpio.h.51.99a4c0bd520ffa931ac6d8600dce89c4
+                           .group:0000000000000000 wm4.xmc4_gpio_map.h.74.66e9110cf801b78826ef5354da51c32f
+                           .group:0000000000000000 wm4.xmc4_gpio.h.79.ce6c49508b5a7769c66e7e3c21dcdfe4
+                           .group:0000000000000000 wm4.authenticator_crack.h.15.14fe18ca252df7ccd6477a3738374866
+
+UNDEFINED SYMBOLS
+XMC_SCU_CLOCK_Init
+XMC_SCU_CLOCK_EnableUsbPll
+XMC_SCU_CLOCK_StartUsbPll
+XMC_SCU_CLOCK_SetUsbClockDivider
+XMC_SCU_CLOCK_SetUsbClockSource
+XMC_SCU_CLOCK_EnableClock
+SystemCoreClockUpdate

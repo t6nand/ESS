@@ -1,0 +1,479 @@
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 34, 1
+  11              		.eabi_attribute 18, 4
+  12              		.file	"authenticator_crack.c"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.global	request_sent_at_time
+  17              		.bss
+  18              		.align	2
+  21              	request_sent_at_time:
+  22 0000 00000000 		.space	4
+  23              		.global	response_received_at_time
+  24              		.align	2
+  27              	response_received_at_time:
+  28 0004 00000000 		.space	4
+  29              		.global	max_response_time
+  30              		.align	2
+  33              	max_response_time:
+  34 0008 00000000 		.space	4
+  35              		.global	send_message_flag
+  38              	send_message_flag:
+  39 000c 00       		.space	1
+  40              		.global	send_enter_flag
+  43              	send_enter_flag:
+  44 000d 00       		.space	1
+  45              		.comm	max_iteration_time,672,8
+  46              		.comm	samples_response_time,8,8
+  47              		.global	response_counter
+  48 000e 0000     		.align	2
+  51              	response_counter:
+  52 0010 00000000 		.space	4
+  53              		.global	max_index
+  54              		.align	2
+  57              	max_index:
+  58 0014 00000000 		.space	4
+  59              		.global	consume_on
+  62              	consume_on:
+  63 0018 00       		.space	1
+  64              		.global	key
+  65 0019 000000   		.align	2
+  68              	key:
+  69 001c 0000     		.space	2
+  70              		.global	pwchars
+  71              		.section	.rodata
+  72              		.align	2
+  75              	pwchars:
+  76 0000 61626364 		.ascii	"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXY"
+  76      65666768 
+  76      696A6B6C 
+  76      6D6E6F70 
+  76      71727374 
+  77 0033 5A313233 		.ascii	"Z1234567890!()-_+=~;:,.<>[]{}/?&$\000"
+  77      34353637 
+  77      38393021 
+  77      28292D5F 
+  77      2B3D7E3B 
+  78              		.global	psw
+  79              		.data
+  80              		.align	2
+  83              	psw:
+  84 0000 04       		.byte	4
+  85 0001 00000000 		.space	19
+  85      00000000 
+  85      00000000 
+  85      00000000 
+  85      000000
+  86 0014 00       		.byte	0
+  87 0015 00       		.byte	0
+  88 0016 00000000 		.space	19
+  88      00000000 
+  88      00000000 
+  88      00000000 
+  88      000000
+  89              		.global	LED_config
+  90              		.section	.rodata
+  91 0055 000000   		.align	2
+  94              	LED_config:
+  95 0058 80       		.byte	-128
+  96 0059 000000   		.space	3
+  97 005c 00000100 		.word	65536
+  98 0060 00       		.byte	0
+  99 0061 000000   		.space	3
+ 100              		.global	pswchars
+ 101              		.data
+ 102 0029 000000   		.align	2
+ 105              	pswchars:
+ 106 002c 04       		.byte	4
+ 107 002d 05       		.byte	5
+ 108 002e 06       		.byte	6
+ 109 002f 07       		.byte	7
+ 110 0030 08       		.byte	8
+ 111 0031 09       		.byte	9
+ 112 0032 0A       		.byte	10
+ 113 0033 0B       		.byte	11
+ 114 0034 0C       		.byte	12
+ 115 0035 0D       		.byte	13
+ 116 0036 0E       		.byte	14
+ 117 0037 0F       		.byte	15
+ 118 0038 10       		.byte	16
+ 119 0039 11       		.byte	17
+ 120 003a 12       		.byte	18
+ 121 003b 13       		.byte	19
+ 122 003c 14       		.byte	20
+ 123 003d 15       		.byte	21
+ 124 003e 16       		.byte	22
+ 125 003f 17       		.byte	23
+ 126 0040 18       		.byte	24
+ 127 0041 19       		.byte	25
+ 128 0042 1A       		.byte	26
+ 129 0043 1B       		.byte	27
+ 130 0044 1D       		.byte	29
+ 131 0045 1C       		.byte	28
+ 132 0046 1E       		.byte	30
+ 133 0047 1F       		.byte	31
+ 134 0048 20       		.byte	32
+ 135 0049 21       		.byte	33
+ 136 004a 22       		.byte	34
+ 137 004b 23       		.byte	35
+ 138 004c 24       		.byte	36
+ 139 004d 25       		.byte	37
+ 140 004e 26       		.byte	38
+ 141 004f 27       		.byte	39
+ 142 0050 36       		.byte	54
+ 143 0051 37       		.byte	55
+ 144 0052 38       		.byte	56
+ 145 0053 64       		.byte	100
+ 146 0054 30       		.byte	48
+ 147 0055 04       		.byte	4
+ 148 0056 05       		.byte	5
+ 149 0057 06       		.byte	6
+ 150 0058 07       		.byte	7
+ 151 0059 08       		.byte	8
+ 152 005a 09       		.byte	9
+ 153 005b 0A       		.byte	10
+ 154 005c 0B       		.byte	11
+ 155 005d 0C       		.byte	12
+ 156 005e 0D       		.byte	13
+ 157 005f 0E       		.byte	14
+ 158 0060 0F       		.byte	15
+ 159 0061 10       		.byte	16
+ 160 0062 11       		.byte	17
+ 161 0063 12       		.byte	18
+ 162 0064 13       		.byte	19
+ 163 0065 14       		.byte	20
+ 164 0066 15       		.byte	21
+ 165 0067 16       		.byte	22
+ 166 0068 17       		.byte	23
+ 167 0069 18       		.byte	24
+ 168 006a 19       		.byte	25
+ 169 006b 1A       		.byte	26
+ 170 006c 1B       		.byte	27
+ 171 006d 1D       		.byte	29
+ 172 006e 1C       		.byte	28
+ 173 006f 1E       		.byte	30
+ 174 0070 21       		.byte	33
+ 175 0071 23       		.byte	35
+ 176 0072 24       		.byte	36
+ 177 0073 25       		.byte	37
+ 178 0074 26       		.byte	38
+ 179 0075 27       		.byte	39
+ 180 0076 2D       		.byte	45
+ 181 0077 64       		.byte	100
+ 182 0078 36       		.byte	54
+ 183 0079 37       		.byte	55
+ 184 007a 38       		.byte	56
+ 185 007b 30       		.byte	48
+ 186 007c 24       		.byte	36
+ 187 007d 25       		.byte	37
+ 188 007e 26       		.byte	38
+ 189 007f 27       		.byte	39
+ 190 0080 00000000 		.space	16
+ 190      00000000 
+ 190      00000000 
+ 190      00000000 
+ 191 0090 00       		.byte	0
+ 192 0091 00       		.byte	0
+ 193 0092 00       		.byte	0
+ 194 0093 00       		.byte	0
+ 195 0094 00       		.byte	0
+ 196 0095 00       		.byte	0
+ 197 0096 00       		.byte	0
+ 198 0097 00       		.byte	0
+ 199 0098 00       		.byte	0
+ 200 0099 00       		.byte	0
+ 201 009a 00       		.byte	0
+ 202 009b 00       		.byte	0
+ 203 009c 00       		.byte	0
+ 204 009d 00       		.byte	0
+ 205 009e 00       		.byte	0
+ 206 009f 00       		.byte	0
+ 207 00a0 00       		.byte	0
+ 208 00a1 00       		.byte	0
+ 209 00a2 00       		.byte	0
+ 210 00a3 00       		.byte	0
+ 211 00a4 00       		.byte	0
+ 212 00a5 00       		.byte	0
+ 213 00a6 00       		.byte	0
+ 214 00a7 00       		.byte	0
+ 215 00a8 00       		.byte	0
+ 216 00a9 00       		.byte	0
+ 217 00aa 00       		.byte	0
+ 218 00ab 00       		.byte	0
+ 219 00ac 00       		.byte	0
+ 220 00ad 00       		.byte	0
+ 221 00ae 00       		.byte	0
+ 222 00af 00       		.byte	0
+ 223 00b0 00       		.byte	0
+ 224 00b1 00       		.byte	0
+ 225 00b2 00       		.byte	0
+ 226 00b3 00       		.byte	0
+ 227 00b4 00       		.byte	0
+ 228 00b5 00       		.byte	0
+ 229 00b6 00       		.byte	0
+ 230 00b7 00       		.byte	0
+ 231 00b8 00       		.byte	0
+ 232 00b9 00       		.byte	0
+ 233 00ba 02       		.byte	2
+ 234 00bb 02       		.byte	2
+ 235 00bc 02       		.byte	2
+ 236 00bd 02       		.byte	2
+ 237 00be 02       		.byte	2
+ 238 00bf 02       		.byte	2
+ 239 00c0 02       		.byte	2
+ 240 00c1 02       		.byte	2
+ 241 00c2 02       		.byte	2
+ 242 00c3 02       		.byte	2
+ 243 00c4 02       		.byte	2
+ 244 00c5 02       		.byte	2
+ 245 00c6 02       		.byte	2
+ 246 00c7 02       		.byte	2
+ 247 00c8 02       		.byte	2
+ 248 00c9 02       		.byte	2
+ 249 00ca 02       		.byte	2
+ 250 00cb 02       		.byte	2
+ 251 00cc 02       		.byte	2
+ 252 00cd 02       		.byte	2
+ 253 00ce 02       		.byte	2
+ 254 00cf 02       		.byte	2
+ 255 00d0 02       		.byte	2
+ 256 00d1 02       		.byte	2
+ 257 00d2 02       		.byte	2
+ 258 00d3 02       		.byte	2
+ 259 00d4 02       		.byte	2
+ 260 00d5 02       		.byte	2
+ 261 00d6 02       		.byte	2
+ 262 00d7 02       		.byte	2
+ 263 00d8 02       		.byte	2
+ 264 00d9 02       		.byte	2
+ 265 00da 02       		.byte	2
+ 266 00db 02       		.byte	2
+ 267 00dc 02       		.byte	2
+ 268 00dd 02       		.byte	2
+ 269 00de 02       		.byte	2
+ 270 00df 02       		.byte	2
+ 271 00e0 40       		.byte	64
+ 272 00e1 40       		.byte	64
+ 273 00e2 40       		.byte	64
+ 274 00e3 40       		.byte	64
+ 275 00e4 40       		.byte	64
+ 276 00e5 00000000 		.space	16
+ 276      00000000 
+ 276      00000000 
+ 276      00000000 
+ 277              		.global	inject_file
+ 278 00f5 000000   		.align	2
+ 281              	inject_file:
+ 282 00f8 00       		.byte	0
+ 283 00f9 08       		.byte	8
+ 284 00fa 06       		.byte	6
+ 285 00fb 0B       		.byte	11
+ 286 00fc 12       		.byte	18
+ 287 00fd 2C       		.byte	44
+ 288 00fe 17       		.byte	23
+ 289 00ff 04       		.byte	4
+ 290 0100 13       		.byte	19
+ 291 0101 04       		.byte	4
+ 292 0102 11       		.byte	17
+ 293 0103 2C       		.byte	44
+ 294 0104 16       		.byte	22
+ 295 0105 0B       		.byte	11
+ 296 0106 04       		.byte	4
+ 297 0107 15       		.byte	21
+ 298 0108 10       		.byte	16
+ 299 0109 04       		.byte	4
+ 300 010a 2C       		.byte	44
+ 301 010b 64       		.byte	100
+ 302 010c 00       		.byte	0
+ 303 010d 64       		.byte	100
+ 304 010e 2C       		.byte	44
+ 305 010f 30       		.byte	48
+ 306 0110 24       		.byte	36
+ 307 0111 27       		.byte	39
+ 308 0112 20       		.byte	32
+ 309 0113 24       		.byte	36
+ 310 0114 1E       		.byte	30
+ 311 0115 1F       		.byte	31
+ 312 0116 00       		.byte	0
+ 313 0117 25       		.byte	37
+ 314 0118 21       		.byte	33
+ 315 0119 1E       		.byte	30
+ 316 011a 00000000 		.space	66
+ 316      00000000 
+ 316      00000000 
+ 316      00000000 
+ 316      00000000 
+ 317 015c 21       		.byte	33
+ 318 015d 00       		.byte	0
+ 319 015e 00       		.byte	0
+ 320 015f 00       		.byte	0
+ 321 0160 00       		.byte	0
+ 322 0161 00       		.byte	0
+ 323 0162 00       		.byte	0
+ 324 0163 00       		.byte	0
+ 325 0164 00       		.byte	0
+ 326 0165 00       		.byte	0
+ 327 0166 00       		.byte	0
+ 328 0167 00       		.byte	0
+ 329 0168 00       		.byte	0
+ 330 0169 00       		.byte	0
+ 331 016a 00       		.byte	0
+ 332 016b 00       		.byte	0
+ 333 016c 00       		.byte	0
+ 334 016d 00       		.byte	0
+ 335 016e 00       		.byte	0
+ 336 016f 00       		.byte	0
+ 337 0170 02       		.byte	2
+ 338 0171 00       		.byte	0
+ 339 0172 02       		.byte	2
+ 340 0173 00       		.byte	0
+ 341 0174 40       		.byte	64
+ 342 0175 02       		.byte	2
+ 343 0176 00       		.byte	0
+ 344 0177 00       		.byte	0
+ 345 0178 00       		.byte	0
+ 346 0179 00       		.byte	0
+ 347 017a 00       		.byte	0
+ 348 017b 00       		.byte	0
+ 349 017c 00       		.byte	0
+ 350 017d 00       		.byte	0
+ 351 017e 00000000 		.space	67
+ 351      00000000 
+ 351      00000000 
+ 351      00000000 
+ 351      00000000 
+ 352              		.text
+ 353              	.Letext0:
+ 354              		.file 1 "/usr/arm-none-eabi/include/machine/_default_types.h"
+ 355              		.file 2 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 356              		.file 3 "/usr/arm-none-eabi/include/sys/lock.h"
+ 357              		.file 4 "/usr/arm-none-eabi/include/sys/_types.h"
+ 358              		.file 5 "/usr/lib/gcc/arm-none-eabi/7.3.1/include/stddef.h"
+ 359              		.file 6 "/usr/arm-none-eabi/include/sys/reent.h"
+ 360              		.file 7 "/opt/XMClib/XMC_Peripheral_Library_v2.1.16/CMSIS/Include/core_cm4.h"
+ 361              		.file 8 "/opt/XMClib/XMC_Peripheral_Library_v2.1.16/CMSIS/Infineon/XMC4500_series/Include/system_X
+ 362              		.file 9 "/opt/XMClib/XMC_Peripheral_Library_v2.1.16/CMSIS/Infineon/XMC4500_series/Include/XMC4500.
+ 363              		.file 10 "/usr/arm-none-eabi/include/stdlib.h"
+ 364              		.file 11 "/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_usbd_regs.h"
+ 365              		.file 12 "/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_usbd.h"
+ 366              		.file 13 "/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/U
+ 367              		.file 14 "/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/.
+ 368              		.file 15 "/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/.
+ 369              		.file 16 "/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/XMC4000/.
+ 370              		.file 17 "/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Core/USBTask.h
+ 371              		.file 18 "/opt/XMClib/XMC_Peripheral_Library_v2.1.16/ThirdPartyLibraries/USBlib/USB/Class/Device/H
+ 372              		.file 19 "KeyboardHID.h"
+ 373              		.file 20 "/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc_gpio.h"
+ 374              		.file 21 "/opt/XMClib/XMC_Peripheral_Library_v2.1.16/XMCLib/inc/xmc4_gpio.h"
+ 375              		.file 22 "authenticator_crack.h"
+ 376              		.file 23 "authenticator_crack.c"
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 authenticator_crack.c
+     /tmp/cc1JIkgG.s:21     .bss:0000000000000000 request_sent_at_time
+     /tmp/cc1JIkgG.s:18     .bss:0000000000000000 $d
+     /tmp/cc1JIkgG.s:27     .bss:0000000000000004 response_received_at_time
+     /tmp/cc1JIkgG.s:33     .bss:0000000000000008 max_response_time
+     /tmp/cc1JIkgG.s:38     .bss:000000000000000c send_message_flag
+     /tmp/cc1JIkgG.s:43     .bss:000000000000000d send_enter_flag
+                            *COM*:00000000000002a0 max_iteration_time
+                            *COM*:0000000000000008 samples_response_time
+     /tmp/cc1JIkgG.s:51     .bss:0000000000000010 response_counter
+     /tmp/cc1JIkgG.s:57     .bss:0000000000000014 max_index
+     /tmp/cc1JIkgG.s:62     .bss:0000000000000018 consume_on
+     /tmp/cc1JIkgG.s:68     .bss:000000000000001c key
+     /tmp/cc1JIkgG.s:75     .rodata:0000000000000000 pwchars
+     /tmp/cc1JIkgG.s:72     .rodata:0000000000000000 $d
+     /tmp/cc1JIkgG.s:83     .data:0000000000000000 psw
+     /tmp/cc1JIkgG.s:80     .data:0000000000000000 $d
+     /tmp/cc1JIkgG.s:94     .rodata:0000000000000058 LED_config
+     /tmp/cc1JIkgG.s:105    .data:000000000000002c pswchars
+     /tmp/cc1JIkgG.s:281    .data:00000000000000f8 inject_file
+                           .group:0000000000000000 wm4.0.7a9f4dea188ccacb7d502cdcabb040c1
+                           .group:0000000000000000 wm4.USB.h.376.cfdb9ecb25c70fec676f585dede264a7
+                           .group:0000000000000000 wm4.Common.h.60.c2f00e237f5994003db83c2422602b22
+                           .group:0000000000000000 wm4._newlib_version.h.4.875b979a44719054cd750d0952ad3fd6
+                           .group:0000000000000000 wm4.features.h.33.5bd1eea2d80518b50f7af0b5ce6750e0
+                           .group:0000000000000000 wm4._default_types.h.15.247e5cd201eca3442cbf5404108c4935
+                           .group:0000000000000000 wm4._intsup.h.10.cce27fed8484c08a33f522034c30d2b5
+                           .group:0000000000000000 wm4._stdint.h.10.c24fa3af3bc1706662bb5593a907e841
+                           .group:0000000000000000 wm4.stdint.h.23.d53047a68f4a85177f80b422d52785ed
+                           .group:0000000000000000 wm4.stdbool.h.29.07dce69c3b78884144b7f7bd19483461
+                           .group:0000000000000000 wm4.newlib.h.8.f6e543eac3f2f65163ba2ffe3b04987b
+                           .group:0000000000000000 wm4.ieeefp.h.77.220d9cccac42cd58761758bee2df4ce6
+                           .group:0000000000000000 wm4.config.h.220.6cac6a9685cfce5e83c17784171638d9
+                           .group:0000000000000000 wm4._ansi.h.31.de524f58584151836e90d8620a16f8e8
+                           .group:0000000000000000 wm4.stddef.h.39.99b5021e28f91cdb161c889e07266673
+                           .group:0000000000000000 wm4.lock.h.2.1461d1fff82dffe8bfddc23307f6484f
+                           .group:0000000000000000 wm4._types.h.125.5cf8a495f1f7ef36777ad868a1e32068
+                           .group:0000000000000000 wm4.stddef.h.161.5349cb105733e8777bfb0cf53c4e3f34
+                           .group:0000000000000000 wm4._types.h.184.03611d4f6b5bec9997bcf4279eceba07
+                           .group:0000000000000000 wm4.reent.h.17.90c2574d4acdcfce933db5cb09ff35fe
+                           .group:0000000000000000 wm4.cdefs.h.47.14fad0b327eb9dcf106599b738d85132
+                           .group:0000000000000000 wm4.string.h.15.dab3980bf35408a4c507182805e2de3a
+                           .group:0000000000000000 wm4.stddef.h.161.19e15733342b50ead2919490b095303e
+                           .group:0000000000000000 wm4.BoardTypes.h.52.ca64813ccee737bcc2115eab5e075fdb
+                           .group:0000000000000000 wm4.CompilerSpecific.h.55.4a5e5ff77cd35e49c89cf2115251aee0
+                           .group:0000000000000000 wm4.Attributes.h.56.73b3ee26b0836c2dec569a5fa6f1b355
+                           .group:0000000000000000 wm4.xmc_device.h.61.ba2d082e12f51240746cffdd60d42b81
+                           .group:0000000000000000 wm4.XMC4500.h.55.9aa45b9b5790506b2dcb963e4e7adeaf
+                           .group:0000000000000000 wm4.core_cm4.h.32.6c6eb1c8daeca23ce7ba79c8e8120d52
+                           .group:0000000000000000 wm4.cmsis_gcc.h.26.91b63349961c35637933e4fba51b867b
+                           .group:0000000000000000 wm4.core_cm4.h.172.fdd5a388a160bb6ff767b7d7ee212268
+                           .group:0000000000000000 wm4.system_XMC4500.h.42.99124977c10ca8844a71949adbeabd70
+                           .group:0000000000000000 wm4.XMC4500.h.208.b340195df97f067735c4c769ba59985a
+                           .group:0000000000000000 wm4.xmc_device.h.1460.8860499b404961ffcfbb8d1fefcb2146
+                           .group:0000000000000000 wm4.xmc_common.h.92.3f4336a80569affab05a81145b87c2fc
+                           .group:0000000000000000 wm4.Endianness.h.57.3ac00c5468f4b91b806a0e6dba047e9c
+                           .group:0000000000000000 wm4.Common.h.105.4b937a9cc9dcdb26c3f07541b0b763a8
+                           .group:0000000000000000 wm4.USBController.h.49.cbfc73805155b6fff6267400af3f4eec
+                           .group:0000000000000000 wm4.stdlib.h.13.4ed386f5c1a80d71e72172885d946ef2
+                           .group:0000000000000000 wm4.alloca.h.8.dfc0c703c47ec3e69746825b17d9e66d
+                           .group:0000000000000000 wm4.stdlib.h.56.d4493cd3736e51e9d56335045f26df45
+                           .group:0000000000000000 wm4.xmc_usbd_regs.h.80.57c6c85fa0ecbc9f8327ce445aebb9bc
+                           .group:0000000000000000 wm4.xmc4_scu.h.83.0449f5880ac071460ec1a8072311ea51
+                           .group:0000000000000000 wm4.xmc_usbd.h.122.ce57a9e6a9da48ee33ece02813c49593
+                           .group:0000000000000000 wm4.USBController_XMC4000.h.71.902f2653e09cb8b25245faa82cc6b907
+                           .group:0000000000000000 wm4.StdDescriptors.h.73.7d17e8be7a73b855fc0f8827303b7597
+                           .group:0000000000000000 wm4.Endpoint.h.73.3734de3e84ab23fb43d81f41fba620ec
+                           .group:0000000000000000 wm4.Device_XMC4000.h.86.6803bdd99d84e764a570256c87a24d0a
+                           .group:0000000000000000 wm4.StdRequestType.h.50.461dce94a3ee1fa9ff31ec5f28bd9699
+                           .group:0000000000000000 wm4.ConfigDescriptors.h.51.0d67ebf453774188abf5a503ba8f6735
+                           .group:0000000000000000 wm4.CDCClass.h.61.0d41ba255f7ce6f076fd610d8396dd1f
+                           .group:0000000000000000 wm4.CDCClassCommon.h.72.14ca578d8547e19a8a0c0d2d328483bd
+                           .group:0000000000000000 wm4.stdio.h.27.3fc80220048df77954e38daec3bb9670
+                           .group:0000000000000000 wm4.stdarg.h.34.3a23a216c0c293b3d2ea2e89281481e6
+                           .group:0000000000000000 wm4.types.h.40.e8c16e7ec36ba55f133d0616070e25fc
+                           .group:0000000000000000 wm4._endian.h.31.65a10590763c3dde1ac4a7f66d7d4891
+                           .group:0000000000000000 wm4.endian.h.9.49f3a4695c1b61e8a0808de3c4a106cb
+                           .group:0000000000000000 wm4._timeval.h.30.0e8bfd94e85db17dda3286ee81496fe6
+                           .group:0000000000000000 wm4.timespec.h.41.d855182eb0e690443ab8651bcedca6e1
+                           .group:0000000000000000 wm4.select.h.19.97ca6fd0c752a0f3b6719fd314d361e6
+                           .group:0000000000000000 wm4.types.h.69.ed3eae3cf73030a737515151ebcab7a1
+                           .group:0000000000000000 wm4.sched.h.22.c60982713a5c428609783c78f9c78d95
+                           .group:0000000000000000 wm4._pthreadtypes.h.36.fcee9961c35163dde6267ef772ad1972
+                           .group:0000000000000000 wm4.stdio.h.2.4aa87247282eca6c8f36f9de33d8df1a
+                           .group:0000000000000000 wm4.stdio.h.81.932d0c162786b883f622b8d05c120c78
+                           .group:0000000000000000 wm4.HIDClass.h.62.6bb32c59177b21a83b8e65c5a1b0a615
+                           .group:0000000000000000 wm4.HIDReportData.h.47.f13f4956396e0bec70835fe634fcc24d
+                           .group:0000000000000000 wm4.HIDParser.h.88.4b86fe94cb8d01713592cdd0391b606b
+                           .group:0000000000000000 wm4.HIDClassCommon.h.71.a60cdf9d7cd69289f43dde215b509193
+                           .group:0000000000000000 wm4.MassStorageClass.h.61.e9235f3bd090b77f36343f082ef93107
+                           .group:0000000000000000 wm4.MassStorageClassCommon.h.51.6aefecf288eb3c3c6c9bde61e26dd765
+                           .group:0000000000000000 wm4.Descriptors.h.81.5a86d5c3eca9045c72e143b752381294
+                           .group:0000000000000000 wm4.KeyboardHID.h.13.cb5c30ef2fb43d67407e82031ebeb8ac
+                           .group:0000000000000000 wm4.german_keyboardCodes.h.2.e1b4448076427773e95ef41c8020de97
+                           .group:0000000000000000 wm4.xmc_gpio.h.51.99a4c0bd520ffa931ac6d8600dce89c4
+                           .group:0000000000000000 wm4.xmc4_gpio_map.h.74.66e9110cf801b78826ef5354da51c32f
+                           .group:0000000000000000 wm4.xmc4_gpio.h.79.ce6c49508b5a7769c66e7e3c21dcdfe4
+                           .group:0000000000000000 wm4.authenticator_crack.h.15.14fe18ca252df7ccd6477a3738374866
+
+NO UNDEFINED SYMBOLS
